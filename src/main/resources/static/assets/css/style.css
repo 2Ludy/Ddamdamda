@@ -1,0 +1,473 @@
+body {
+    cursor: none;
+    /* 기본 커서 숨기기 */
+    background-color: #fafafa;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+
+.board-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.board-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.board-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.board-item h3 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+}
+
+.board-item p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.hit {
+    color: rgb(251, 33, 117);
+    font-weight: bold;
+}
+
+button {
+    margin: 20px;
+}
+
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+        7px 7px 20px 0px rgba(0, 0, 0, .1),
+        4px 4px 5px 0px rgba(0, 0, 0, .1);
+    outline: none;
+}
+
+/* 버튼 스타일 */
+.btn {
+    border: none;
+    background: rgb(251, 33, 117);
+    background: linear-gradient(0deg, rgba(251, 33, 117, 1) 0%, rgba(234, 76, 137, 1) 100%);
+    color: #fff;
+    overflow: hidden;
+}
+
+.btn:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn:before {
+    position: absolute;
+    content: '';
+    display: inline-block;
+    top: -180px;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    background-color: #fff;
+    animation: shiny-btn1 3s ease-in-out infinite;
+}
+
+.btn:hover {
+    opacity: .7;
+}
+
+.btn:active {
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3),
+        -4px -4px 6px 0 rgba(116, 125, 136, .2),
+        inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+        inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+}
+
+
+@-webkit-keyframes shiny-btn1 {
+    0% {
+        -webkit-transform: scale(0) rotate(45deg);
+        opacity: 0;
+    }
+
+    80% {
+        -webkit-transform: scale(0) rotate(45deg);
+        opacity: 0.5;
+    }
+
+    81% {
+        -webkit-transform: scale(4) rotate(45deg);
+        opacity: 1;
+    }
+
+    100% {
+        -webkit-transform: scale(50) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+
+.modal-input,
+.modal-textarea {
+    width: 100%;
+    padding: 10px;
+    /* 적절한 패딩 */
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    /* 패딩과 테두리를 너비에 포함 */
+}
+
+.modal-textarea {
+    min-height: 150px;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.modal-boardcontent {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 15px 0;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    /* 연한 회색 */
+    padding: 20px;
+    /* 패딩 추가 */
+    border-radius: 5px;
+    /* 모서리 둥글게 */
+    width: 90%;
+    /* 전체 너비의 90%로 설정 (원하는 크기로 조정 가능) */
+    max-width: 800px;
+    /* 최대 너비를 800px로 설정 (원하는 크기로 조정 가능) */
+    margin: 0 auto;
+    /* 중앙 정렬 */
+}
+
+.modal-close {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    /* 둥글게 처리 */
+    background-color: #f9f9f9;
+    /* 연한 배경색 */
+    font-size: 1rem;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 내부 그림자 추가 */
+    transition: border-color 0.2s, box-shadow 0.2s;
+    /* 애니메이션 */
+}
+
+.modal-input:focus {
+    border-color: #007BFF;
+    /* 포커스 시 테두리 색상 변경 */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    /* 포커스 시 그림자 효과 */
+    outline: none;
+    /* 기본 outline 제거 */
+}
+
+/* 텍스트 영역 (textarea) 스타일 */
+.modal-textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    /* 둥글게 처리 */
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-height: 150px;
+    /* 최소 높이 설정 */
+}
+
+.modal-textarea:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* 댓글 목록 스타일 */
+#commentList {
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    /* 연한 회색 배경 */
+    padding: 15px;
+    /* 여백 추가 */
+    border-radius: 8px;
+    /* 둥근 모서리 */
+    max-height: 200px;
+    /* 최대 높이 설정 */
+    overflow-y: auto;
+    /* 스크롤 추가 */
+}
+
+.modal-content-container {
+    display: flex;
+    /* Flexbox 활성화 */
+}
+
+.modal-content {
+    flex: 1;
+    /* 남은 공간을 모두 차지 */
+    padding: 20px;
+    /* 패딩 추가 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* 그림자 추가 */
+    background-color: #fff;
+    /* 배경색 설정 */
+    border-radius: 8px;
+    /* 모서리 둥글게 */
+    margin-bottom: 15px;
+    /* 두 콘텐츠 사이 여백 */
+}
+
+/* 각 댓글 스타일 */
+.comment {
+    background-color: #ffffff;
+    /* 흰색 배경 */
+    border: 1px solid #ddd;
+    /* 경계선 */
+    border-radius: 5px;
+    /* 둥글게 처리 */
+    padding: 10px;
+    /* 여백 추가 */
+    margin-bottom: 10px;
+    /* 댓글 간 여백 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 그림자 효과 */
+}
+
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    /* 세로 방향으로 배치 */
+}
+
+.comment-list {
+    overflow-y: auto;
+    /* 세로 스크롤 추가 */
+}
+
+.comment-input {
+    margin-top: auto;
+    /* 항상 아래쪽에 고정 */
+    display: flex;
+    /* 입력과 버튼을 가로로 배치 */
+    gap: 7px;
+    /* 입력과 버튼 사이 여백 */
+}
+
+/* 댓글 작성 입력 필드 스타일 */
+.comment-input input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    /* 경계선 */
+    border-radius: 5px;
+    /* 둥글게 처리 */
+    background-color: #f9f9f9;
+    /* 연한 배경색 */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* 내부 그림자 */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* ㅇㅇㅇㅇ */
+.submit-button {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.header-container {
+    display: flex;
+    /* Flexbox 레이아웃을 사용 */
+    justify-content: space-between;
+    /* 양쪽 끝으로 나눔 */
+    align-items: center;
+    /* 세로 가운데 정렬 */
+    padding: 10px 20px;
+    /* 여백 추가 (필요시 조정 가능) */
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    background-color: #f8f8f8;
+    /* 배경색 추가 (선택 사항) */
+    border-bottom: 1px solid #dbdbdb;
+    color: white;
+    border-radius: 15px;
+}
+
+.header-container h1 {
+    margin: 0;
+    /* 제목의 기본 여백 제거 */
+}
+
+.button-container {
+    display: flex;
+    /* Flexbox 레이아웃 사용 */
+    gap: 10px;
+    /* 버튼 간 간격 설정 */
+}
+
+@media (max-width: 600px) {
+    .board-item {
+        padding: 10px;
+    }
+
+    .board-item h3 {
+        font-size: 1.2rem;
+    }
+}
+
+.cursor {
+    opacity: 0;
+    position: fixed;
+    z-index: 1000;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 40px;
+    /* 커서 너비 조정 */
+    height: 40px;
+    /* 커서 높이 조정 */
+    border-radius: 50%;
+    background-image: url('../image/mushroom.png');
+    /* 이미지 경로 삽입 */
+    background-size: cover;
+    /* 이미지 크기 조정 */
+    background-position: center;
+    /* 이미지 가운데 정렬 */
+    background-repeat: no-repeat;
+    pointer-events: none;
+    transition-property: background, transform;
+    transition-duration: .2s;
+}
+
+.cursor.on {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.snow {
+    position: fixed;
+    pointer-events: none;
+    /* 마우스 이벤트를 막음 */
+    width: 20px;
+    /* 잔상 이미지의 너비 */
+    height: 20px;
+    /* 잔상 이미지의 높이 */
+    background: url('../image/mushroom.png') no-repeat center center;
+    /* 눈 이미지 URL로 교체 */
+    background-size: contain;
+    /* 이미지 크기 조정 */
+    opacity: 0.5;
+    /* 투명도 조정 */
+    animation: fall 11s forwards;
+    /* 애니메이션 추가 */
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 0.5;
+        /* 시작할 때의 투명도 */
+    }
+
+    50% {
+        transform: translateY(50vh);
+        /* 거의 바닥까지 떨어짐 */
+        opacity: 0.11;
+        /* 중간 단계에서 약간 사라짐 */
+    }
+
+    80% {
+        transform: translateY(80vh);
+        /* 거의 바닥까지 떨어짐 */
+        opacity: 0.05;
+        /* 중간 단계에서 약간 사라짐 */
+    }
+
+    100% {
+        transform: translateY(100vh);
+        /* 아래로 떨어짐 */
+        opacity: 0;
+        /* 완전히 사라짐 */
+    }
+}
+
+:hover {
+    cursor: none;
+}

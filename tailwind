@@ -1,0 +1,21 @@
+npm create vite@latest my-project -- --template vue
+cd my-project
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init -p
+
+content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+https://clapsheep.notion.site/Vue-js-TailwindCSS-1300a20f663180018fa9d9e3c58f6ffb
+
+
+npm add axios

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Access Admin</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="email" id="username" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+        <br><br>
+        <button type="submit">Login</button>
+    </form>
+
+    <h2>Admin Only Access</h2>
+    <button id="adminAccess" disabled>Access Admin Page</button>
+    <div id="response"></div>
+
+    <script>
+        let accessToken = '';
+
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('http://localhost:8080/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    accessToken = data.access_token;
+                    console.log(accessToken);
+                    document.getElementById('adminAccess').disabled = false;
+                    document.getElementById('response').innerText = 'Login successful: Access token received.';
+                } else {
+                    document.getElementById('response').innerText = `Login failed: ${data.message}`;
+                }
+            } catch (error) {
+                document.getElementById('response').innerText = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('adminAccess').addEventListener('click', async () => {
+            if (!accessToken) {
+                alert('You need to log in first!');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/admin_only', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+
+                //const data = await response.json();
+                const data = await response.text();
+                console.log(data);
+                if (response.ok) {
+                    document.getElementById('response').innerText = 'Admin access granted:\n' + data;//JSON.stringify(data, null, 2);
+                } else {
+                    document.getElementById('response').innerText = `Admin access failed: ${data}`;
+                }
+            } catch (error) {
+                document.getElementById('response').innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
