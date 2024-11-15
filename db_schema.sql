@@ -211,5 +211,7 @@ CREATE TABLE likes (
     
     SELECT * FROM user;
     
+    SELECT * FROM exercises;
+    
     INSERT INTO user (email, password, username)
     VALUES('ddd@gmail.com', '1234', '나는월급들어왔지롱메롱');

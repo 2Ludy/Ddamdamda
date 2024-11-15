@@ -18,17 +18,17 @@ CREATE TABLE exercises (
     exercises_id INT AUTO_INCREMENT PRIMARY KEY,
     part ENUM('가슴', '등', '어깨', '팔', '코어', '하체', '전신'),
     name VARCHAR(100) NOT NULL,
-    video_url VARCHAR(255)
+    video_url VARCHAR(255) NOT NULL
 );
 
 -- User 테이블
 CREATE TABLE user (
-    id VARCHAR(255) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    nickname VARCHAR(50) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,  ## username으로 변경
     profile_image_id INT,
-    is_admin BOOLEAN DEFAULT FALSE,
+	role enum ('ADMIN','USER') DEFAULT 'USER',
     FOREIGN KEY (profile_image_id) 
         REFERENCES images(id) 
         ON DELETE SET NULL
@@ -37,7 +37,7 @@ CREATE TABLE user (
 -- Routine 테이블
 CREATE TABLE routine (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     title VARCHAR(100) NOT NULL,
     exercise_date DATE NOT NULL,
     sets INT NOT NULL,
@@ -55,11 +55,10 @@ CREATE TABLE routine (
 -- Board 테이블
 CREATE TABLE board (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     category ENUM('자유', '운동인증'),
     title VARCHAR(200) NOT NULL,
     content TEXT NOT NULL,
-    image_urls TEXT,
     view_count INT DEFAULT 0,
     likes_count INT DEFAULT 0,
     comments_count INT DEFAULT 0,
@@ -84,7 +83,7 @@ CREATE TABLE board_image (
 -- Comment 테이블
 CREATE TABLE comment (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     content TEXT NOT NULL,
     board_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -101,7 +100,7 @@ CREATE TABLE group_info (
     group_id INT AUTO_INCREMENT PRIMARY KEY,
     group_name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
-    admin_id VARCHAR(255) NOT NULL,
+    admin_id INT NOT NULL,
     group_img INT,
     mate_status ENUM('모집중', '마감') DEFAULT '모집중',
     region VARCHAR(100) NOT NULL,
@@ -118,9 +117,9 @@ CREATE TABLE group_info (
 
 -- group_members 테이블
 CREATE TABLE group_members (
+	id INT AUTO_INCREMENT PRIMARY KEY,
     group_id INT,
-    user_id VARCHAR(255),
-    PRIMARY KEY (group_id, user_id),
+    user_id INT,
     FOREIGN KEY (group_id) 
         REFERENCES group_info(group_id) 
         ON DELETE CASCADE,
@@ -156,7 +155,7 @@ CREATE TABLE gnotice_image (
 -- Gcomment 테이블
 CREATE TABLE gcomment (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     content TEXT NOT NULL,
     gnotice_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -171,7 +170,7 @@ CREATE TABLE gcomment (
 -- Notice 테이블
 CREATE TABLE notice (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     content TEXT NOT NULL,
     reference_id INT NOT NULL,
     reference_type ENUM('like', 'comment', 'group_notice', 'group_member'),
@@ -185,7 +184,7 @@ CREATE TABLE notice (
 -- Likes 테이블
 CREATE TABLE likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(255),
+    user_id INT,
     board_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) 
@@ -196,3 +195,23 @@ CREATE TABLE likes (
         ON DELETE CASCADE,
     UNIQUE KEY unique_like (user_id, board_id)
 );
+
+ -- token
+ CREATE TABLE token (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        is_logged_out bit DEFAULT 0,
+        user_id INT,
+        access_token VARCHAR(255),
+        refresh_token varchar(255),
+		FOREIGN KEY (user_id) 
+			references user (id)
+    );
+    
+    SHOW TABLES;
+    
+    SELECT * FROM user;
+    
+    SELECT * FROM exercises;
+    
+    INSERT INTO user (email, password, username)
+    VALUES('ddd@gmail.com', '1234', '나는월급들어왔지롱메롱');
