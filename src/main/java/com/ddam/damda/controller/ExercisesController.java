@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ddam.damda.exercises.model.Exercises;
 import com.ddam.damda.exercises.model.service.ExercisesService;
+import com.ddam.damda.jwt.model.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +26,8 @@ public class ExercisesController {
 	@PostMapping("/exercises")
 	public ResponseEntity<?> postMethodName(@RequestBody Exercises exercises) {
 		int isS = exercisesService.insertExercises(exercises);
-		if(isS > 0 ) return new ResponseEntity<String>("Success", HttpStatus.CREATED);
-		return new ResponseEntity<String>("Fail", HttpStatus.NOT_FOUND);
+		if(isS > 0 ) return new ResponseEntity<>(new ApiResponse("Success", "exercieses", 201), HttpStatus.CREATED);
+		return new ResponseEntity<>(new ApiResponse("Fail", "exercieses", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

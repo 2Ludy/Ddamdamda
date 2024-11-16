@@ -11,5 +11,9 @@ public interface UserService {
 	Optional<User> findByUsername(String username);
 	
 	User save(User user);
+	
+	boolean validByUsername(String username);
+	
+	boolean validByEmail(String email);
 
 }

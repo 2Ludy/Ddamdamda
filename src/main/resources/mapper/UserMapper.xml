@@ -14,10 +14,21 @@
         WHERE username = #{username}
     </select>
 
-    <!-- VALUES 괄호 추가 및 파라미터 표현 수정 -->
     <insert id="save" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user (email, password, username)
         VALUES (#{email}, #{password}, #{username})
     </insert>
+    
+    <select id="validByUsername" parameterType="string" resultType="User">
+        SELECT username
+        FROM user
+        WHERE username = #{username}
+    </select>
+    
+	<select id="validByEmail" parameterType="string" resultType="User">
+	    SELECT email
+	    FROM user
+	    WHERE email = #{email}
+	</select>    
   
 </mapper>

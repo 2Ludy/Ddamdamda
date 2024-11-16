@@ -38,5 +38,18 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
-
+	
+	@Transactional
+	@Override
+	public boolean validByUsername(String username) {
+		User user = userMapper.validByUsername(username);
+		 return user != null;
+	}
+	
+	@Transactional
+	@Override
+	public boolean validByEmail(String email) {
+		User user = userMapper.validByEmail(email);
+		return user != null;
+	}
 }
