@@ -29,6 +29,12 @@
 	    SELECT email
 	    FROM user
 	    WHERE email = #{email}
-	</select>    
+	</select>
+	
+	<update id="updatePassword">
+	    UPDATE user 
+	    SET password = #{password}
+	    WHERE email = #{email}
+	</update>    
   
 </mapper>

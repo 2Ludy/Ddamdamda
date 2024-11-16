@@ -15,5 +15,7 @@ public interface UserService {
 	boolean validByUsername(String username);
 	
 	boolean validByEmail(String email);
+	
+	boolean updatePassword(String email, String newPassword);
 
 }
