@@ -9,5 +9,9 @@ public interface UserMapper {
 	User findByUsername(String username);
 	
 	int save(User user);
+	
+	User validByUsername(String username);
+	
+	User validByEmail(String email);
 
 }
