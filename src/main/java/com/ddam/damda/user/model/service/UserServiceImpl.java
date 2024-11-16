@@ -3,6 +3,7 @@ package com.ddam.damda.user.model.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Transactional
 	@Override
@@ -51,5 +55,19 @@ public class UserServiceImpl implements UserService {
 	public boolean validByEmail(String email) {
 		User user = userMapper.validByEmail(email);
 		return user != null;
+	}
+	
+	@Transactional
+	@Override
+	public boolean updatePassword(String email, String newPassword) {
+			User user = userMapper.findByEmail(email);
+
+            // 2. 새 비밀번호 암호화
+            String encodedNewPassword = passwordEncoder.encode(newPassword);
+            
+            // 3. 비밀번호 업데이트
+            int result = userMapper.updatePassword(email, encodedNewPassword);
+            
+            return result > 0;
 	}
 }

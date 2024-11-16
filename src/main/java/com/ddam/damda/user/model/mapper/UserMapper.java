@@ -14,4 +14,6 @@ public interface UserMapper {
 	
 	User validByEmail(String email);
 
+	int updatePassword(String email, String password);
+
 }
