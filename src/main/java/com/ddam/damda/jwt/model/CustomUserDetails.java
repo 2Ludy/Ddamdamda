@@ -1,14 +1,15 @@
 package com.ddam.damda.jwt.model;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.ToString;
+import com.ddam.damda.user.model.User;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import lombok.ToString;
 @ToString
 public class CustomUserDetails implements UserDetails {
     private final User user;
@@ -33,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override

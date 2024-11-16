@@ -1,27 +1,25 @@
-package com.ddam.damda.jwt.model.service;
+package com.ddam.damda.user.model.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ddam.damda.jwt.model.CustomUserDetails;
-import com.ddam.damda.jwt.model.User;
-@Service
-public class UserDetailServiceImp implements UserDetailsService {
+import com.ddam.damda.user.model.User;
 
-	private UserService userService;
+@Service
+public class UserDetailServiceImpl implements UserDetailsService {
 	
-	public UserDetailServiceImp(UserService userService) {
-		super();
-		this.userService = userService;
-	}
+	@Autowired
+	private UserService userService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> nUser = userService.findByUsername(username); //조인으로 수정
+		Optional<User> nUser = userService.findByEmail(username);
 		return nUser.map(CustomUserDetails::new)
 		        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 	}

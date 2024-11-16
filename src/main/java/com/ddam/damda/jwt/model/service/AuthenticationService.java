@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.ddam.damda.jwt.model.AuthenticationResponse;
 import com.ddam.damda.jwt.model.Token;
-import com.ddam.damda.jwt.model.User;
+import com.ddam.damda.user.model.User;
+import com.ddam.damda.user.model.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -43,19 +44,10 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(User request) {
 
-        // check if user already exist. if exist than authenticate the user
-        if(repository.findByUsername(request.getUsername()).isPresent()) {
-            return new AuthenticationResponse(null, null,"User already exist");
-        }
-
         User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-
-        user.setRole(request.getRole());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));;
 
         user = repository.save(user);
 
@@ -71,12 +63,12 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(User request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        User user = repository.findByUsername(request.getUsername()).orElseThrow();
+        User user = repository.findByEmail(request.getEmail()).orElseThrow();
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
@@ -125,7 +117,7 @@ public class AuthenticationService {
         String username = jwtService.extractUsername(token);
 
         // check if the user exist in database
-        User user = repository.findByUsername(username)
+        User user = repository.findByEmail(username)
                 .orElseThrow(()->new RuntimeException("No user found"));
 
         // check if the token is valid
