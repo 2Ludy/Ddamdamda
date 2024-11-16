@@ -11,12 +11,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
-public class Images {
+public class Image {
 	
 	private int id;
-	private String file_path;
-	private String file_name;
-	private String file_type;
+	private String filePath;
+	private String fileName;
+	private String fileType;
 
 }
