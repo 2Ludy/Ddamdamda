@@ -2,6 +2,7 @@ package com.ddam.damda.config;
 
 
 import java.util.Collections;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +25,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.ddam.damda.jwt.filter.JwtAuthenticationFilter;
-import com.ddam.damda.jwt.model.service.UserDetailServiceImp;
+import com.ddam.damda.user.model.service.UserDetailServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +36,13 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
 	@Value("${company.origin-url}")
 	private String allowOrginUrl;
-    private final UserDetailServiceImp userDetailsServiceImp;
+    private final UserDetailServiceImpl userDetailsServiceImp;
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final CustomLogoutHandler logoutHandler;
 
-    public SecurityConfig(UserDetailServiceImp userDetailsServiceImp,
+    public SecurityConfig(UserDetailServiceImpl userDetailsServiceImp,
                           JwtAuthenticationFilter jwtAuthenticationFilter,
                           CustomLogoutHandler logoutHandler) {
         this.userDetailsServiceImp = userDetailsServiceImp;
@@ -64,12 +65,13 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/exercises",
+                                "/**",
                                 "/webjars/**")
                         //req->req.requestMatchers("/login/**","/register/**", "/refresh_token/**")
                                 .permitAll()
-                                .requestMatchers("/demo").hasAnyAuthority("USER", "ADMIN")
+//                                .requestMatchers("/demo").hasAnyAuthority("USER", "ADMIN")
                                 //.requestMatchers("/board/**").hasAuthority("USER")
-                                .requestMatchers("/admin_only").hasAuthority("ADMIN")
+//                                .requestMatchers("/admin_only").hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsServiceImp)

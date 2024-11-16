@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddam.damda.jwt.model.ApiResponse;
-import com.ddam.damda.jwt.model.User;
 import com.ddam.damda.jwt.model.service.AuthenticationService;
 import com.ddam.damda.jwt.model.service.TokenService;
+import com.ddam.damda.user.model.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
