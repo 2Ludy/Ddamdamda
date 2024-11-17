@@ -6,5 +6,16 @@
 		INSERT INTO exercises
 		VALUES(#{id}, #{part}, #{name}, #{videoUrl})
 	</insert>
+	
+	<select id="selectAllExercises" resultType="Exercises">
+        SELECT exercises_id exercisesId, part, name, video_url videoUrl
+        FROM exercises
+    </select>
+    
+    <select id="selectExercisesByPart" parameterType="String" resultType="Exercises">
+        SELECT exercises_id exercisesId, part, name, video_url videoUrl
+        FROM exercises
+        WHERE part = #{part}
+    </select> 
   
 </mapper>
