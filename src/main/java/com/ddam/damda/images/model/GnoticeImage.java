@@ -14,7 +14,7 @@ import lombok.ToString;
 public class GnoticeImage {
 	
 	int id;
-	int boardId;
+	int gnoticeId;
 	String filePath;
 	String fileName;
 	String fileType;
