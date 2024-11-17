@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.routine.model.mapper.RoutineMapper">
+	
+	<select id="selectAllRoutineByUserId" resultType="Routine">
+        SELECT id, user_id userId, title, exercise_date exerciseDate, sets, reps, exercises_id exercisesId, is_completed isCompleted
+        FROM routine
+        WHERE user_id = #{userId}
+    </select>
+    
+    <select id="selectDateRoutineByUserId" resultType="Routine">
+        SELECT id, user_id userId, title, exercise_date exerciseDate, sets, reps, exercises_id exercisesId, is_completed isCompleted
+        FROM routine
+        WHERE user_id = #{userId} AND exercise_date LIKE CONCAT(#{exerciseDate}, '%')
+    </select>
+    
+	<select id="selectRoutineById" resultType="Routine">
+        SELECT id, user_id userId, title, exercise_date exerciseDate, sets, reps, exercises_id exercisesId, is_completed isCompleted
+        FROM routine
+        WHERE id = #{id}
+    </select>    
+    
+    <insert id="insertRoutine" parameterType="Routine" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO routine(user_id, title, exercise_date, sets, reps, exercises_id)
+		VALUES(#{userId}, #{title}, #{exerciseDate}, #{sets}, #{reps}, #{exercisesId})
+	</insert>
+	
+	<update id="updateSetsReps">
+		UPDATE routine
+		SET sets = #{sets}, reps = #{reps}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateIsCompleted">
+		UPDATE routine
+		SET is_completed = 1
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteRoutineById">
+		DELETE 
+		FROM routine
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectCountDayRoutine">
+		SELECT count(*)
+        FROM routine
+        WHERE user_id = #{userId} AND exercise_date LIKE CONCAT(#{exerciseDate}, '%')
+	</select>
+ 
+	<select id="selectCountDayCompletedRoutine">
+		SELECT count(*)
+        FROM routine
+        WHERE user_id = #{userId} 
+        AND exercise_date LIKE CONCAT(#{exerciseDate}, '%')
+        AND is_completed = 1
+	</select>
+	  
+</mapper>
