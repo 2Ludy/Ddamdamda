@@ -14,7 +14,7 @@ import lombok.ToString;
 
 public class Exercises {
 	
-	private int id;
+	private int exercisesId;
 	private String part;
 	private String name;
 	private String videoUrl;
