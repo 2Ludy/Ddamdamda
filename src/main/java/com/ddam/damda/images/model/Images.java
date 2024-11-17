@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Image {
+public class Images {
 	
 	private int id;
 	private String filePath;
