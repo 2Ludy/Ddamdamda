@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.images.model.mapper.ImagesMapper">
+
+<!-- ImageMapper.xml -->
+	<insert id="save" parameterType="Images" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO images (
+	        file_type,
+	        file_path,
+	        file_name
+	    ) VALUES (
+	        #{fileType},
+	        #{filePath},
+	        #{fileName}
+	    )
+	</insert>
+
+   <update id="updateFileInfo" parameterType="Images">
+       UPDATE images 
+       SET file_path = #{filePath},
+           file_name = #{fileName},
+           file_type = #{fileType}
+       WHERE id = #{id}
+   </update>
+
+   <select id="findById" parameterType="int" resultType="Images">
+       SELECT id, file_path filePath, file_name fileName, file_type fileType
+       FROM images
+       WHERE id = #{id}
+   </select>
+
+</mapper>
