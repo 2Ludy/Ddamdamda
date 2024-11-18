@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.group.model.mapper.GroupInfoMapper">
+
+	<select id="selectAllGroupInfos" resultType="GroupInfo">
+	    SELECT 
+	   	group_id groupId,
+	   	group_name groupName,
+	   	description,
+	   	admin_id adminId,
+	   	group_img groupImg,
+	   	mate_status mateStatus,
+	   	region,
+	   	exercise_type exerciseType,
+	   	current_members currentMembers,
+	   	member_count memberCount
+	   	FROM group_info
+	    <where>
+	        <if test="search != null">
+	            (group_name LIKE CONCAT('%', #{search}, '%') OR description LIKE CONCAT('%', #{search}, '%'))
+	        </if>
+	        
+		    <if test="mateStatus != null">
+		        AND mate_status = #{mateStatus}
+		    </if>
+	    </where>
+	</select>
+	
+	<select id="selectGroupInfo" resultType="GroupInfo">
+	    SELECT 
+	   	group_id groupId,
+	   	group_name groupName,
+	   	description,
+	   	admin_id adminId,
+	   	group_img groupImg,
+	   	mate_status mateStatus,
+	   	region,
+	   	exercise_type exerciseType,
+	   	current_members currentMembers,
+	   	member_count memberCount
+	   	FROM group_info
+		WHERE group_id = #{groupId}
+	</select>
+	
+	<insert id="insertGroupInfo" parameterType="GroupInfo" useGeneratedKeys="true" keyProperty="groupId">
+	    INSERT INTO group_info (
+	        group_name,
+	        description,
+	        admin_id,
+	        group_img,
+	        region,
+	        exercise_type,
+	        member_count
+	    ) VALUES (
+	        #{groupName},
+	        #{description},
+	        #{adminId},
+	        #{groupImg},
+	        #{region},
+	        #{exerciseType},
+	        #{memberCount}
+	    )
+	</insert>
+
+	<delete id="deleteGroupInfo">
+		DELETE FROM group_info
+		WHERE group_id = #{groupId}
+	</delete>
+	
+	<update id="updateGroupInfo">
+		UPDATE group_info
+		SET group_name = #{groupName}, description = #{description}, group_img = #{groupImg}, mate_status = #{mateStatus}, region = #{region}, exercise_type = #{exerciseType}, member_count = #{memberCount}
+		WHERE group_id = #{groupId}
+	</update>
+	
+	<update id="increaseCurrentMembers">
+		UPDATE group_info
+		SET current_members = current_members + 1
+		WHERE group_id = #{groupId}
+	</update>
+	
+	<update id="decreaseCurrentMembers">
+		UPDATE group_info
+		SET current_members = current_members - 1
+		WHERE group_id = #{groupId}
+	</update>
+	
+
+</mapper>

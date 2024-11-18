@@ -82,7 +82,7 @@ public class BoardController {
 		}
 	}
 	
-	@DeleteMapping("")
+	@PutMapping("")
 	public ResponseEntity<?> editBoard(@RequestBody Board board) {
 		try {
 			int isS = boardService.updateBoard(board);
