@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class Comment {
 	
-	int id;
-	int userId;
-	String content;
-	int boardId;
-	String createdAt;
+	private int id;
+	private int userId;
+	private String content;
+	private int boardId;
+	private String createdAt;
 
 }

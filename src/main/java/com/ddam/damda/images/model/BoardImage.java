@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class BoardImage {
 	
-	int id;
-	int boardId;
-	String filePath;
-	String fileName;
-	String fileType;
+	private int id;
+	private int boardId;
+	private String filePath;
+	private String fileName;
+	private String fileType;
 
 }

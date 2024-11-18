@@ -13,13 +13,13 @@ import lombok.ToString;
 @ToString
 public class Routine {
 	
-	int id;
-	int userId;
-	String title;
-	String exerciseDate;
-	int sets;
-	int reps;
-	int exercisesId;
-	int isCompleted;
+	private int id;
+	private int userId;
+	private String title;
+	private String exerciseDate;
+	private int sets;
+	private int reps;
+	private int exercisesId;
+	private int isCompleted;
 
 }

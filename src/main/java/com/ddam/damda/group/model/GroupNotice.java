@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class GroupNotice {
 	
-	int gnoticeId;
-	int groupId;
-	String title;
-	String content;
-	String createdAt;
+	private int gnoticeId;
+	private int groupId;
+	private String title;
+	private String content;
+	private String createdAt;
 
 }

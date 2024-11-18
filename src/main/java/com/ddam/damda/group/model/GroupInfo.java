@@ -13,15 +13,15 @@ import lombok.ToString;
 @ToString
 public class GroupInfo {
 	
-	int groupId;
-	String groupName;
-	String description;
-	int adminId;
-	int groupImg;
-	String mateStatus;
-	String region;
-	String exerciseType;
-	int currentMembers;
-	int memberCount;
+	private int groupId;
+	private String groupName;
+	private String description;
+	private int adminId;
+	private int groupImg;
+	private String mateStatus;
+	private String region;
+	private String exerciseType;
+	private int currentMembers;
+	private int memberCount;
 
 }

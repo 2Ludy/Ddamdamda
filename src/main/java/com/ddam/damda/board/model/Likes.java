@@ -13,9 +13,9 @@ import lombok.ToString;
 @ToString
 public class Likes {
 	
-	int id;
-	int userId;
-	int boardId;
-	String createdAt;
+	private int id;
+	private int userId;
+	private int boardId;
+	private String createdAt;
 
 }

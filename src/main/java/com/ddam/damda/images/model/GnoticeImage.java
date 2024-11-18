@@ -13,10 +13,10 @@ import lombok.ToString;
 @ToString
 public class GnoticeImage {
 	
-	int id;
-	int gnoticeId;
-	String filePath;
-	String fileName;
-	String fileType;
+	private int id;
+	private int gnoticeId;
+	private String filePath;
+	private String fileName;
+	private String fileType;
 
 }

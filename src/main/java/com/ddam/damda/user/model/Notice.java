@@ -13,12 +13,12 @@ import lombok.ToString;
 @ToString
 public class Notice {
 	
-	int id;
-	int userId;
-	String content;
-	int referenceId;
-	String referenceType;
-	String createdAt;
-	int isRead;
+	private int id;
+	private int userId;
+	private String content;
+	private int referenceId;
+	private String referenceType;
+	private String createdAt;
+	private int isRead;
 
 }

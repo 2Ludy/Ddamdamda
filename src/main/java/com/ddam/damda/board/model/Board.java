@@ -13,14 +13,15 @@ import lombok.ToString;
 @ToString
 public class Board {
 	
-	int id;
-	int userId;
-	String category;
-	String title;
-	String content;
-	int viewCount;
-	int likesCount;
-	int commentsCount;
-	String createdAt;
+	private int id;
+	private int userId;
+	private String category;
+	private String title;
+	private String content;
+	private int viewCount;
+	private int likesCount;
+	private int commentsCount;
+	private String createdAt;
+	
 
 }
