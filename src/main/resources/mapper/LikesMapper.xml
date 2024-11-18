@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.board.model.mapper.LikesMapper">
+
+
+	<select id="selectLikes" resultType="Likes">
+	    SELECT id, user_id userId, board_id boardId, created_at createdAt
+	    FROM likes
+	    WHERE id = #{id}
+	</select>
+	
+	<select id="haveLikes" resultType="Likes">
+		SELECT id, user_id userId, board_id boardId, created_at createdAt
+	    FROM likes
+	    WHERE user_id = #{userId} AND board_id = #{boardId}
+	</select>
+	
+	<insert id="insertLikes" parameterType="Likes" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO likes (
+	        user_id,
+	        board_id
+	    ) VALUES (
+	        #{userId},
+	        #{boardId}
+	    )
+	</insert>
+
+	<delete id="deleteLikes">
+		DELETE FROM likes
+		WHERE id = #{id}
+	</delete>
+
+</mapper>

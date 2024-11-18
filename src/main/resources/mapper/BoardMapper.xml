@@ -53,16 +53,28 @@
 		WHERE id = #{id}
 	</update>
 	
-	<update id="updateLikesCount">
+	<update id="increaseLikesCount">
 		UPDATE board
 		SET likes_count = likes_count + 1
 		WHERE id = #{id}
 	</update>
 	
-	<update id="updateCommentsCount">
+	<update id="decreaseLikesCount">
+		UPDATE board
+		SET likes_count = likes_count - 1
+		WHERE id = #{id}
+	</update>	
+	
+	<update id="increaseCommentsCount">
 		UPDATE board
 		SET comments_count = comments_count + 1
 		WHERE id = #{id}
 	</update>
+	
+	<update id="decreaseCommentsCount">
+		UPDATE board
+		SET comments_count = comments_count - 1
+		WHERE id = #{id}
+	</update>	
 
 </mapper>

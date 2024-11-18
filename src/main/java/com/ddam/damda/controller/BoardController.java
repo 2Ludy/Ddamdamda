@@ -94,43 +94,4 @@ public class BoardController {
 			return new ResponseEntity<>(new ApiResponse("Error", "editBoard", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	@PutMapping("/viewcount/{id}")
-	public ResponseEntity<?> increseViewCount(@PathVariable int id) {
-		try {
-			int isS = boardService.updateViewCount(id);
-			if(isS > 0) {
-				return new ResponseEntity<>(new ApiResponse("Success", "increseViewCount", 200), HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(new ApiResponse("fail", "increseViewCount", 400), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse("Error", "increseViewCount", 500), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PutMapping("/likescount/{id}")
-	public ResponseEntity<?> increseLikesCount(@PathVariable int id) {
-		try {
-			int isS = boardService.updateLikesCount(id);
-			if(isS > 0) {
-				return new ResponseEntity<>(new ApiResponse("Success", "increseLikesCount", 200), HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(new ApiResponse("fail", "increseLikesCount", 400), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse("Error", "increseLikesCount", 500), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-	
-	@PutMapping("/commentscount/{id}")
-	public ResponseEntity<?> increseCommentsCount(@PathVariable int id) {
-		try {
-			int isS = boardService.updateLikesCount(id);
-			if(isS > 0) {
-				return new ResponseEntity<>(new ApiResponse("Success", "increseCommentsCount", 200), HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(new ApiResponse("fail", "increseCommentsCount", 400), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse("Error", "increseCommentsCount", 500), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.board.model.mapper.CommentMapper">
+
+
+	<select id="selectAllComments" resultType="Comment">
+	    SELECT id, user_id userId, content, board_id boardId, created_at createdAt
+	    FROM comment
+	    WHERE board_id = #{boardId}
+	</select>
+	
+	<select id="selectComment" resultType="Comment">
+		SELECT id, user_id userId, content, board_id boardId, created_at createdAt
+		FROM comment
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO comment (
+	        user_id,
+	        content,
+	        board_id
+	    ) VALUES (
+	        #{userId},
+	        #{content},
+	        #{boardId}
+	    )
+	</insert>
+
+	<delete id="deleteComment">
+		DELETE FROM comment
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateComment">
+		UPDATE comment
+		SET content = #{content}, created_at = now()
+		WHERE id = #{id}
+	</update>
+
+</mapper>

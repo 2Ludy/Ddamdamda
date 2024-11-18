@@ -35,6 +35,7 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public Board selectBoard(int id) {
+		updateViewCount(id);
 		return boardMapper.selectBoard(id);
 	}
 
@@ -64,14 +65,26 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional
 	@Override
-	public int updateLikesCount(int id) {
-		return boardMapper.updateLikesCount(id);
+	public int increaseLikesCount(int id) {
+		return boardMapper.increaseLikesCount(id);
+	}
+	
+	@Transactional
+	@Override
+	public int decreaseLikesCount(int id) {
+		return boardMapper.decreaseLikesCount(id);
 	}
 
 	@Transactional
 	@Override
-	public int updateCommentsCount(int id) {
-		return boardMapper.updateCommentsCount(id);
+	public int increaseCommentsCount(int id) {
+		return boardMapper.increaseCommentsCount(id);
+	}
+	
+	@Transactional
+	@Override
+	public int decreaseCommentsCount(int id) {
+		return boardMapper.decreaseCommentsCount(id);
 	}
 
 }
