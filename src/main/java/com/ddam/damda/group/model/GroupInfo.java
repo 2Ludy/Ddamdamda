@@ -1,4 +1,4 @@
-package com.ddam.damda.group.model;
+  package com.ddam.damda.group.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class GroupInfo {
 	private String description;
 	private int adminId;
 	private int groupImg;
-	private String mateStatus;
+	private String mateStatus; // 모집중, 마감 
 	private String region;
 	private String exerciseType;
 	private int currentMembers;
