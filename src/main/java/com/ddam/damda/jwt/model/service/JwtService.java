@@ -107,7 +107,7 @@ public class JwtService {
     }
     
     public Integer extractUserId(String token) {
-        return extractClaim(token, claims -> claims.get("userId", Integer.class));
+        return extractClaim(token, claims -> claims.get("id", Integer.class));
     }
 
     private SecretKey getSigninKey() {
