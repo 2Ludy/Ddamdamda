@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.board.model.mapper.BoardMapper">
+
+
+	<select id="selectAllBoards" resultType="Board">
+	    SELECT id, user_id userId, category, title, content, view_count viewCount, likes_count likesCount, comments_count commentsCount, created_at createdAt
+	    FROM board
+	    <where>
+	        <if test="keyword != null">
+	            ${keyword} LIKE CONCAT('%', #{search}, '%')
+	        </if>
+	    </where>
+	    <if test="orderBy != null">
+	        ORDER BY ${orderBy} ${orderDir}
+	    </if>
+	</select>
+	
+	<select id="selectBoard" resultType="Board">
+		SELECT id, user_id userId, category, title, content, view_count viewCount, likes_count likesCount, comments_count commentsCount, created_at createdAt
+		FROM board
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO board (
+	        user_id,
+	        category,
+	        title,
+	        content
+	    ) VALUES (
+	        #{userId},
+	        #{category},
+	        #{title},
+	        #{content}
+	    )
+	</insert>
+
+	<delete id="deleteBoard">
+		DELETE FROM board
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateBoard">
+		UPDATE board
+		SET title = #{title}, content = #{content}, created_at = now()
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateViewCount">
+		UPDATE board
+		SET view_count = view_count + 1
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateLikesCount">
+		UPDATE board
+		SET likes_count = likes_count + 1
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateCommentsCount">
+		UPDATE board
+		SET comments_count = comments_count + 1
+		WHERE id = #{id}
+	</update>
+
+</mapper>

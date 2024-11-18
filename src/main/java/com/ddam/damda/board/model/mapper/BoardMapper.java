@@ -7,15 +7,15 @@ import com.ddam.damda.common.util.PageRequest;
 
 public interface BoardMapper {
 	
-	List<Board> SelectAllBoard(PageRequest preq);
+	List<Board> selectAllBoards(PageRequest preq);
 	
-	Board SelectBoard(int id);
+	Board selectBoard(int id);
 	
-	int insertBoard(Board board);
+	int insertBoard(Board board); // user_id, category, title, content 사용
 	
 	int deleteBoard(int id);
 	
-	int updateBoard(Board board);
+	int updateBoard(Board board); // id, title, content 사용
 	
 	int updateViewCount(int id);
 	
