@@ -97,12 +97,17 @@ public class JwtService {
         String token = Jwts
                 .builder()
                 .subject(user.getUsername())
+                .claim("id", user.getId())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expireTime ))
                 .signWith(getSigninKey())
                 .compact();
 
         return token;
+    }
+    
+    public Integer extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Integer.class));
     }
 
     private SecretKey getSigninKey() {
