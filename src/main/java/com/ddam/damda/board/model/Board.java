@@ -1,5 +1,9 @@
 package com.ddam.damda.board.model;
 
+import java.util.List;
+
+import com.ddam.damda.images.model.BoardImage;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +26,5 @@ public class Board {
 	private int likesCount;
 	private int commentsCount;
 	private String createdAt;
-	
 
 }
