@@ -19,9 +19,13 @@ public interface BoardMapper {
 	
 	int updateViewCount(int id);
 	
-	int updateLikesCount(int id);
+	int increaseLikesCount(int id);
 	
-	int updateCommentsCount(int id);
+	int decreaseLikesCount(int id);
+	
+	int increaseCommentsCount(int id);
+	
+	int decreaseCommentsCount(int id);
 }
 
 
