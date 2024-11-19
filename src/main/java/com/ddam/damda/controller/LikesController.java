@@ -31,7 +31,7 @@ public class LikesController {
 	private LikesService likesService;
 	
 	@Operation(summary = "사용자가 특정 게시물에 Likes를 했는지 안했는지 판단하는 메서드", description = "Likes DTO의 userId, boardId 두개를 이용하여 해당 게시물에 로그인된 유저가 좋아요를 했는지 안했는지를 판단하기 위한 메서드")
-	@GetMapping("")
+	@PostMapping("/info")
 	public ResponseEntity<?> haveLikes(@RequestBody Likes request) { // userId, boardId만 사용
 		try {
 			Likes likes = likesService.haveLikes(request);
