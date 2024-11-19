@@ -19,5 +19,7 @@ public interface UserService {
 	boolean validByEmail(String email);
 	
 	boolean updatePassword(String email, String newPassword);
+	
+	String findUserNameById(int id);
 
 }

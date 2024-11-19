@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.user.model.mapper.NoticeMapper">
+
+
+	<select id="selectAllNotice" resultType="Notice">
+	    SELECT id, user_id userId, content, reference_id referenceId, reference_type referenceType, created_at createdAt, is_read isRead
+	    FROM notice
+	    WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectNoticeById" resultType="Notice">
+		SELECT id, user_id userId, content, reference_id referenceId, reference_type referenceType, created_at createdAt, is_read isRead
+	    FROM notice
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertGComment" parameterType="GComment" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO gcomment (
+	        user_id,
+	        content,
+	        gnotice_id
+	    ) VALUES (
+	        #{userId},
+	        #{content},
+	        #{gnoticeId}
+	    )
+	</insert>
+
+	<delete id="deleteGComment">
+		DELETE FROM gcomment
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateGComment">
+		UPDATE gcomment
+		SET content = #{content}, created_at = now()
+		WHERE id = #{id}
+	</update>
+
+</mapper>

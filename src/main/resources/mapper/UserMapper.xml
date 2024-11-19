@@ -41,6 +41,13 @@
 	    UPDATE user 
 	    SET password = #{password}
 	    WHERE email = #{email}
-	</update>    
+	</update>
+
+    <select id="findUserNameById" parameterType="int" resultType="String">
+        SELECT username
+        FROM user
+        WHERE id = #{id}
+    </select>	
+	   
   
 </mapper>
