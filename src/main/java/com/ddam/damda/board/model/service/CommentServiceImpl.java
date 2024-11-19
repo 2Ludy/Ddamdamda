@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddam.damda.board.model.Comment;
 import com.ddam.damda.board.model.mapper.CommentMapper;
 import com.ddam.damda.common.util.CPageRequest;
+import com.ddam.damda.user.model.User;
+import com.ddam.damda.user.model.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -20,12 +22,21 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	@Autowired
+	private UserService userService;
 
 	@Override
 	@Transactional
 	public PageInfo<Comment> selectAllComments(CPageRequest preq) {
 		PageHelper.startPage(preq.getPageNum(), preq.getPageSize());
 		List<Comment> list = commentMapper.selectAllComments(preq);
+		for(Comment c : list) {
+			int userId = c.getUserId();
+			User user = userService.findById(userId);
+			c.setUsername(user.getUsername());
+					
+		}
 		PageInfo<Comment> page = new PageInfo<Comment>(list);
 		return page;
 	}
