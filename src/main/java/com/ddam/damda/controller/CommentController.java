@@ -19,6 +19,7 @@ import com.ddam.damda.common.util.CPageRequest;
 import com.ddam.damda.jwt.model.ApiResponse;
 import com.github.pagehelper.PageInfo;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -31,6 +32,7 @@ public class CommentController {
 	@Autowired
 	private CommentService commentService;
 	
+	@Operation(summary = "comment 리스트를 페이지네이션으로 가져오는 메서드", description = "CPageRequest DTO의 boardId, pageNum, pageSize를 세개를 이용하여 특정 boardId의 코멘트 리스트를 페이지 네이션으로 가져옴")
 	@PostMapping("/page")
 	public ResponseEntity<?> selectAllComment(@RequestBody CPageRequest preq) {
 		try {
@@ -43,6 +45,7 @@ public class CommentController {
 		}
 	}
 	
+	@Operation(summary = "Comment 상세", description = "Comment의 id를 이용하여 해당 id의 코멘트 정보를 모두 가져오는 메서드")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectComment(@PathVariable int id) {
 		try {
@@ -55,6 +58,7 @@ public class CommentController {
 		}
 	}
 	
+	@Operation(summary = "comment 추가", description = "Comment DTO의 userId, content, boardId를 이용하여 특정 board에 Comment를 추가하는 메서드, 실행 시 board테이블의 comments_count가 올라감")
 	@PostMapping("")
 	public ResponseEntity<?> addComment(@RequestBody Comment comment) {
 		try {
@@ -68,6 +72,7 @@ public class CommentController {
 		}
 	}
 	
+	@Operation(summary = "comment 삭제", description = "Comment의 id를 이용하여 comment를 삭제하는 메서드, 실행 시 board테이블의 comments_count가 내려감")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteComment(@PathVariable int id) {
 		try {
@@ -81,6 +86,7 @@ public class CommentController {
 		}
 	}
 	
+	@Operation(summary = "comment 수정", description = "Comment DTO의 content를 이용하여 comment를 수정하는 메서드")
 	@PutMapping("")
 	public ResponseEntity<?> editComment(@RequestBody Comment comment) {
 		try {

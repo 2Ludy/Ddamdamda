@@ -18,6 +18,8 @@ import com.ddam.damda.images.model.Images;
 import com.ddam.damda.images.model.service.ImagesService;
 import com.ddam.damda.jwt.model.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/images")
 public class ImageController {
@@ -25,6 +27,7 @@ public class ImageController {
 	@Autowired
     private ImagesService imageService;
     
+	@Operation(summary = "file 업로드", description = "user, groupInfo 쪽에서 이미지 업로드 시 사용될 메서드")
     @PostMapping("/profile")
     public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file) {
         try {
@@ -49,6 +52,7 @@ public class ImageController {
         }
     }
     
+	@Operation(summary = "이미지 정보 조회", description = "id를 이용해 이미지의 정보를 가져오는 메서드")
     @GetMapping("/{imageId}")
     public ResponseEntity<?> getImage(@PathVariable int imageId) {
         try {

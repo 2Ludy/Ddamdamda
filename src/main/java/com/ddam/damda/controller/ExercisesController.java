@@ -17,6 +17,7 @@ import com.ddam.damda.exercises.model.Exercises;
 import com.ddam.damda.exercises.model.service.ExercisesService;
 import com.ddam.damda.jwt.model.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -29,6 +30,7 @@ public class ExercisesController {
 	@Autowired
 	private ExercisesService exercisesService;
 	
+	@Operation(summary = "Exercises를 추가", description = "여긴 사실 사용 될 일이 없음 admin 구현되면 사용..?")
 	@PostMapping("")
 	public ResponseEntity<?> addExercises(@RequestBody Exercises exercises) {
 		try {
@@ -40,6 +42,7 @@ public class ExercisesController {
 		}
 	}
 	
+	@Operation(summary = "Exercises 모든 정보를 조회", description = "Exercises안에 담겨 있는 모든 정보를 반환")
 	@GetMapping("")
 	public  ResponseEntity<?> getAllExercises() {
 		try {
@@ -54,6 +57,7 @@ public class ExercisesController {
 		}
 	}
 	
+	@Operation(summary = "part 별 Exericses 정보 조회", description = "part는 partId를 임의로 만들어서 넘기면 될듯 아래의 partId를 따라서 int를 넘기면 됩니다.")
 	@GetMapping("/{partId}")
 	public  ResponseEntity<?> getExercisesByPart(@PathVariable int partId) { // partId => 1 : 가슴 / 2 : 등 / 3 : 어깨 / 4 : 팔 / 5 : 코어 / 6 : 하체 / 7 : 전신
 		String part = "";

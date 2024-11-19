@@ -41,8 +41,8 @@ public class RoutineServiceImpl implements RoutineService {
 
 	@Override
 	@Transactional
-	public int updateSetsReps(int id, int sets, int reps) {
-		return routineMapper.updateSetsReps(id, sets, reps);
+	public int updateSetsReps(Routine routine) {
+		return routineMapper.updateSetsReps(routine);
 	}
 
 	@Override

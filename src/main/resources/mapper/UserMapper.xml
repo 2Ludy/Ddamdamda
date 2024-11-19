@@ -3,13 +3,13 @@
 <mapper namespace="com.ddam.damda.user.model.mapper.UserMapper">
 
     <select id="findByEmail" parameterType="string" resultType="User">
-        SELECT id, email, password, username, role
+        SELECT id, email, password, username, profile_image_id profileImageId, role
         FROM user
         WHERE email = #{email}
     </select>
 
     <select id="findByUsername" parameterType="string" resultType="User">
-        SELECT id, email, password, username, role
+        SELECT id, email, password, username, profile_image_id profileImageId, role
         FROM user
         WHERE username = #{username}
     </select>

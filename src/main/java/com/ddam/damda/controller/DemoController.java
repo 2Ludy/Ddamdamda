@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @CrossOrigin("*")
 public class DemoController {
-
+	
+	/*
+	 *  이 쪽은 user의 role을 다루는 페이지로 없어도 무방한 페이지 or 수정해서 관리자 페이지 만들 수도..??
+	 */
     @GetMapping("/demo")
     public ResponseEntity<String> demo() {
         return ResponseEntity.ok("Hello from secured url");

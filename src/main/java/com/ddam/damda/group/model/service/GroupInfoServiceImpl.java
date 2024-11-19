@@ -6,14 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddam.damda.board.model.Board;
-import com.ddam.damda.board.model.mapper.BoardMapper;
 import com.ddam.damda.common.util.GPageRequest;
-import com.ddam.damda.common.util.PageRequest;
 import com.ddam.damda.group.model.GroupInfo;
 import com.ddam.damda.group.model.mapper.GroupInfoMapper;
-import com.ddam.damda.images.model.BoardImage;
-import com.ddam.damda.images.model.service.BoardImageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -58,7 +53,7 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 		// 여기도 image 처리 따로 하고 넣어야 할듯 insert랑 비슷
 		int currentMembers = groupInfo.getCurrentMembers();
 		int memberCount = groupInfo.getMemberCount();
-		if(memberCount < currentMembers) return -1;
+		if(memberCount < currentMembers) return 0;
 		if(memberCount == currentMembers) groupInfo.setMateStatus("마감");
 		return groupInfoMapper.updateGroupInfo(groupInfo);
 	}

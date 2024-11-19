@@ -14,7 +14,7 @@ public interface RoutineMapper {
 	
 	int insertRoutine(Routine routine);
 	
-	int updateSetsReps( int id, int sets, int reps); // int id, int sets, int reps
+	int updateSetsReps(Routine routine); // int id, int sets, int reps
 	
 	int updateIsCompleted(int id);
 	

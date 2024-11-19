@@ -20,6 +20,7 @@ import com.ddam.damda.common.util.PageRequest;
 import com.ddam.damda.jwt.model.ApiResponse;
 import com.github.pagehelper.PageInfo;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -32,6 +33,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	@Operation(summary = "board리스트", description = "board리스트를 페이지 네이션으로 가져오는 메서드, PageRequest DTO 에서 pageNum, pageSize를 기반으로 페이지 네이션을 반환하며, keyword(컬럼명)가 null이 아니라면, search(내용)으로 정보를 찾고, orderBy(정렬 기준 테이블명)가 null이 아니라면 orderDir(DESC OR ASC)으로 정렬함")
 	@PostMapping("/page")
 	public ResponseEntity<?> selectAllBoard(@RequestBody PageRequest preq) {
 		try {
@@ -44,6 +46,7 @@ public class BoardController {
 		}
 	}
 	
+	@Operation(summary = "board상세보기", description = "board의 id를 이용한 상세보기, id를 넘겨주면 board의 모든 정보를 리턴해줌, 해당 작업 수행 시 조회수+1 메서드도 실행됨")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectBoard(@PathVariable int id) {
 		try {
@@ -56,6 +59,7 @@ public class BoardController {
 		}
 	}
 	
+	@Operation(summary = "board추가", description = "board DTO의 userId, category, title, content를 이용하여 board 생성")
 	@PostMapping("")
 	public ResponseEntity<?> addBoard(@RequestBody Board board) {
 		try {
@@ -69,6 +73,7 @@ public class BoardController {
 		}
 	}
 	
+	@Operation(summary = "board추가", description = "board의 id를 이용하여 board를 삭제하는 메서드")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteBoard(@PathVariable int id) {
 		try {
@@ -82,6 +87,7 @@ public class BoardController {
 		}
 	}
 	
+	@Operation(summary = "board 수정", description = "board DTO의 title, content를 이용하여 Update하며 , created_at은 항상 now()로 설정되어있어 받을 필요 X")
 	@PutMapping("")
 	public ResponseEntity<?> editBoard(@RequestBody Board board) {
 		try {

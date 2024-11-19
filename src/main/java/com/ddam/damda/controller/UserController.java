@@ -21,6 +21,7 @@ import com.ddam.damda.jwt.model.service.TokenService;
 import com.ddam.damda.user.model.User;
 import com.ddam.damda.user.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -38,6 +39,7 @@ public class UserController {
 	@Autowired
 	private TokenService tokenRepository;
 
+	@Operation(summary = "username이 중복되는지 확인하는 메서드", description = "String으로 username을 받아 판단")
     @GetMapping("/vaildname/{username}")
     public ResponseEntity<?> vaildName(@PathVariable String username) {
     	try {
@@ -51,6 +53,7 @@ public class UserController {
 		}
     }
     
+	@Operation(summary = "email이 중복되는지 확인하는 메서드", description = "String으로 email을 받아 판단")
     @GetMapping("/vaildemail/{email}")
     public ResponseEntity<?> vaildEmail(@PathVariable String email) {
     	try {

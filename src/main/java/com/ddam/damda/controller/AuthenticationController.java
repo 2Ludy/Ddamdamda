@@ -12,6 +12,7 @@ import com.ddam.damda.jwt.model.service.AuthenticationService;
 import com.ddam.damda.jwt.model.service.TokenService;
 import com.ddam.damda.user.model.User;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -30,22 +31,20 @@ public class AuthenticationController {
 		this.tokenRepository = tokenRepository;
 	}
 
-	//http://localhost:8080/refresh_token postrefresh를 이용하여 accesstoken 얻기
+	@Operation(summary = "회원가입", description = "새로운 사용자를 등록 하는 메서드, User DTO 에서 email, username, password가 사용 됨")
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody User request
             ) {
     	try {
-    		//아래 처럼 회원가입했다고 토큰을 줄 필요없다. 
-    		//AuthenticationResponse are=authService.register( request);
-    		//return ResponseEntity.ok(are);
     		authService.register(request);
 			return new ResponseEntity<>(new ApiResponse("success","register",200), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("fail","register",500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
-
+	
+	@Operation(summary = "로그인", description = "로그인을 하는 메서드, USER DTO 에서 email, password가 사용되며 accessToken, refreshToken이 발급되어 사용자 브라우저에 저장")
     @PostMapping("/login")
     public ResponseEntity<?> login(
             @RequestBody User request
@@ -56,7 +55,8 @@ public class AuthenticationController {
 			return new ResponseEntity<>(new ApiResponse("fail","login",500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
-
+	
+	@Operation(summary = "로그인", description = "refresh token 을 이용하여 두 토큰을 반환하는 메서드, refresh토큰이 사용되며 accessToken, refreshToken이 재발급 됨")
     @PostMapping("/refresh_token")
     public ResponseEntity<?> refreshToken(
             HttpServletRequest request,

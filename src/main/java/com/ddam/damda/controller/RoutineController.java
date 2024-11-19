@@ -20,6 +20,7 @@ import com.ddam.damda.jwt.model.ApiResponse;
 import com.ddam.damda.routine.model.Routine;
 import com.ddam.damda.routine.model.service.RoutineService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -32,6 +33,7 @@ public class RoutineController {
 	@Autowired
 	private RoutineService routineService;
 	
+	@Operation(summary = "특정 유저의 모든 루틴을 조회", description = "userId를 이용하여 모든 루틴을 조회하는 메서드")
 	@GetMapping("/detail/{userId}")
 	public  ResponseEntity<?> getAllRoutine(@PathVariable int userId) {
 		try {
@@ -46,6 +48,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "특정 유저의 특정 날짜의 routine 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 루틴를 모두 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴, '2024-11'라면 2024년 11월의 모든 루틴, '2024-11-20'라면 2024년 11월 20일의 모든 루틴을 가져오는 방식")
 	@GetMapping("/date")
 	public  ResponseEntity<?> getDateRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
 		try {
@@ -60,6 +63,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "루틴 정보 조회", description = "id를 이용하여 해당 루틴의 정보를 조회하는 메서드")
 	@GetMapping("/{id}")
 	public  ResponseEntity<?> getRoutine(@PathVariable int id) {
 		try {
@@ -74,6 +78,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "루틴 추가", description = "Routine DTO의 userId, title, exerciseDate, sets, reps, exercisesId 를 이용하여 루틴 추가하는 메서드")
 	@PostMapping("")
 	public  ResponseEntity<?> addRoutine(@RequestBody Routine routine) { // String exerciseDate, int userId
 		try {
@@ -88,10 +93,11 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "루틴 수정", description = "Routine DTO의 id, sets, reps를 이용하여 루틴을 수정하는 메서드")
 	@PutMapping("/edit")
-	public  ResponseEntity<?> editRoutine(@RequestParam int id, @RequestParam int sets, int reps) { // int id, int sets, int reps
+	public  ResponseEntity<?> editRoutine(@RequestBody Routine routine) { // int id, int sets, int reps
 		try {
-			int isS = routineService.updateSetsReps(id, sets, reps);
+			int isS = routineService.updateSetsReps(routine);
 			if(isS > 0) {
 				return new ResponseEntity<>(new ApiResponse("Success", "updateSetsReps", 201), HttpStatus.CREATED);
 			}else {
@@ -102,6 +108,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "루틴 완료", description = "Routine의 id를 이용하여 해당 routine을 완료 상태로 바꿔주는 메서드")
 	@PutMapping("/complete/{id}")
 	public  ResponseEntity<?> completeRoutine(@PathVariable int id) {
 		try {
@@ -116,6 +123,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "루틴 삭제", description = "Routine의 id를 루틴을 이용하여 삭제하는 메서드")
 	@DeleteMapping("/{id}")
 	public  ResponseEntity<?> deleteRoutine(@PathVariable int id) {
 		try {
@@ -130,6 +138,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "특정 유저의 선택된 날짜의 루틴 개수 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴개수, '2024-11'라면 2024년 11월의 모든 루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 루틴개수를 가져오는 방식")
 	@GetMapping("/count")
 	public  ResponseEntity<?> getCountRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
 		try {
@@ -140,6 +149,7 @@ public class RoutineController {
 		}
 	}
 	
+	@Operation(summary = "특정 유저의 선택된 날짜의 완료된 루틴 개수 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 완료된루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 완료루틴개수, '2024-11'라면 2024년 11월의 모든 완료루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 완료루틴개수를 가져오는 방식")
 	@GetMapping("/count/complete")
 	public  ResponseEntity<?> getCountCompleteRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
 		try {
