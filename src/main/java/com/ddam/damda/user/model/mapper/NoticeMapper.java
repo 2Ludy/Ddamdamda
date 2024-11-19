@@ -19,12 +19,4 @@ public interface NoticeMapper {
 	
 	int deleteNotice(int id);
 	
-	Likes selectLikesNotice(int referenceId);
-	
-	Comment selectCommentNotice(int referenceId);
-	
-	GroupNotice selectGroupNotice(int referenceId);
-	
-	
-	
 }

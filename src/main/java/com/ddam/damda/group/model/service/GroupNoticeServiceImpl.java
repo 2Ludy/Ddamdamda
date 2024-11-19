@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ddam.damda.common.util.GNPageRequest;
 import com.ddam.damda.group.model.GroupNotice;
 import com.ddam.damda.group.model.mapper.GroupNoticeMapper;
+import com.ddam.damda.user.model.Notice;
+import com.ddam.damda.user.model.User;
+import com.ddam.damda.user.model.service.NoticeService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -17,6 +20,15 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
 	
 	@Autowired
 	private GroupNoticeMapper groupNoticeMapper;
+	
+	@Autowired
+	private GroupMembersService groupMembersService;
+	
+	@Autowired
+	private GroupInfoService groupInfoService;
+	
+	@Autowired
+	private NoticeService noticeService;
 
 	@Override
 	@Transactional
@@ -36,6 +48,18 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
 	@Override
 	@Transactional
 	public int insertGroupNotice(GroupNotice groupNotice) {
+		Notice notice = new Notice();
+		int groupId = groupNotice.getGroupId();
+		String groupName = groupInfoService.selectGroupInfo(groupId).getGroupName();
+		notice.setReferenceId(groupNotice.getGnoticeId());
+		notice.setReferenceType("group_notice");
+		notice.setContent("\"" + groupName + "\" 그룹에 새 공지사항이 등록되었습니다.");
+		List<User> users = groupMembersService.selectAllGroupMembers(groupId);
+		for(User user : users) {
+			int userId = user.getId();
+			notice.setUserId(userId);
+			noticeService.insertNotice(notice);
+		}
 		return groupNoticeMapper.insertGroupNotice(groupNotice);
 	}
 

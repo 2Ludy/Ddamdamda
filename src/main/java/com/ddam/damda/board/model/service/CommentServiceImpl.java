@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ddam.damda.board.model.Board;
 import com.ddam.damda.board.model.Comment;
 import com.ddam.damda.board.model.mapper.CommentMapper;
 import com.ddam.damda.common.util.CPageRequest;
-import com.ddam.damda.user.model.User;
+import com.ddam.damda.user.model.Notice;
+import com.ddam.damda.user.model.service.NoticeService;
 import com.ddam.damda.user.model.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,6 +24,9 @@ public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	private CommentMapper commentMapper;
+	
+	@Autowired
+	private NoticeService noticeService;
 	
 	@Autowired
 	private UserService userService;
@@ -51,6 +56,15 @@ public class CommentServiceImpl implements CommentService {
 	public int insertComment(Comment comment) {
 		int boardId = comment.getBoardId();
 		boardService.increaseCommentsCount(boardId);
+		Board board = boardService.selectBoard(boardId);
+		String title = board.getTitle();
+		int userId = board.getUserId();
+		Notice notice = new Notice();
+		notice.setUserId(userId);
+		notice.setReferenceId(boardId);
+		notice.setReferenceType("comment");
+		notice.setContent("\"" + title + "\" 글에 새로운 댓글이 달렸습니다.");
+		noticeService.insertNotice(notice);
 		return commentMapper.insertComment(comment);
 	}
 
