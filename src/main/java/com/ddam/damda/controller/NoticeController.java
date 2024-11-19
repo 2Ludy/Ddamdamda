@@ -54,10 +54,10 @@ public class NoticeController {
 			String referenceType = notice.getReferenceType();
 			int referenceId = notice.getReferenceId();
 			if(referenceType.equals("like")) {
-				Likes likes = noticeService.selectLikesNotice(referenceId);
+				Likes likes = noticeService.selectLikes(referenceId);
 				return new ResponseEntity<Likes>(likes, HttpStatus.OK); 
 			}else if(referenceType.equals("comment")) {
-				Comment comment = noticeService.selectCommentNotice(referenceId);
+				Comment comment = noticeService.selectComment(referenceId);
 				return new ResponseEntity<Comment>(comment, HttpStatus.OK);
 			}else if(referenceType.equals("group_notice")) {
 				GroupNotice groupNotice = noticeService.selectGroupNotice(referenceId);

@@ -37,5 +37,22 @@
 		SET is_read = TRUE
 		WHERE id = #{id}
 	</update>
+	
+	<select id="selectLikes" resultType="Likes">
+	    SELECT id, user_id userId, board_id boardId, created_at createdAt
+	    FROM likes
+	    WHERE id = #{referenceId}
+	</select>
+	
+	<select id="selectComment" resultType="Comment">
+		SELECT id, user_id userId, content, board_id boardId, created_at createdAt
+		FROM comment
+		WHERE id = #{referenceId}
+	</select>	
 
+	<select id="selectGroupNotice" resultType="GroupNotice">
+		SELECT gnotice_id gnoticeId, group_id groupId, title, content, created_at createdAt
+		FROM group_notice
+		WHERE gnotice_id = #{referenceId}
+	</select>
 </mapper>

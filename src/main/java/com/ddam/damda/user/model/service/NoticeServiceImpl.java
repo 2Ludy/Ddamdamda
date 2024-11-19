@@ -21,15 +21,6 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	private NoticeMapper noticeMapper;
 	
-	@Autowired
-	private LikesService likesService;
-	
-	@Autowired
-	private CommentService commentService;
-	
-	@Autowired
-	private GroupNoticeService groupNoticeService;
-	
 	@Override
 	@Transactional
 	public List<Notice> selectAllNotice(int userId) {
@@ -65,20 +56,20 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	@Transactional
-	public Likes selectLikesNotice(int referenceId) {
-		return likesService.selectLikes(referenceId);
+	public Likes selectLikes(int referenceId) {
+		return noticeMapper.selectLikes(referenceId);
 	}
 
 	@Override
 	@Transactional
-	public Comment selectCommentNotice(int referenceId) {
-		return commentService.selectComment(referenceId);
+	public Comment selectComment(int referenceId) {
+		return noticeMapper.selectComment(referenceId);
 	}
 
 	@Override
 	@Transactional
 	public GroupNotice selectGroupNotice(int referenceId) {
-		return groupNoticeService.selectGroupNotice(referenceId);
+		return noticeMapper.selectGroupNotice(referenceId);
 	}
 
 }

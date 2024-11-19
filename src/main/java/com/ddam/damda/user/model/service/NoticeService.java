@@ -19,9 +19,9 @@ public interface NoticeService {
 	
 	int deleteNotice(int id);
 	
-	Likes selectLikesNotice(int referenceId);
+	Likes selectLikes(int referenceId);
 	
-	Comment selectCommentNotice(int referenceId);
+	Comment selectComment(int referenceId);
 	
 	GroupNotice selectGroupNotice(int referenceId);
 }
