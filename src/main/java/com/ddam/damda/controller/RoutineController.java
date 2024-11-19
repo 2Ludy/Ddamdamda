@@ -48,11 +48,11 @@ public class RoutineController {
 		}
 	}
 	
-	@Operation(summary = "특정 유저의 특정 날짜의 routine 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 루틴를 모두 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴, '2024-11'라면 2024년 11월의 모든 루틴, '2024-11-20'라면 2024년 11월 20일의 모든 루틴을 가져오는 방식")
-	@GetMapping("/date")
-	public  ResponseEntity<?> getDateRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
+	@Operation(summary = "특정 유저의 특정 날짜의 routine 조회", description = "Routine DTO의 exerciseDate와 userId를 이용해 특정 날짜의 루틴를 모두 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴, '2024-11'라면 2024년 11월의 모든 루틴, '2024-11-20'라면 2024년 11월 20일의 모든 루틴을 가져오는 방식")
+	@PostMapping("/date")
+	public  ResponseEntity<?> getDateRoutine(@RequestBody Routine routine) { // String exerciseDate, int userId
 		try {
-			List<Routine> list = routineService.selectDateRoutineByUserId(exerciseDate, userId);
+			List<Routine> list = routineService.selectDateRoutineByUserId(routine);
 			if(list.size() != 0) {
 				return new ResponseEntity<List<Routine>>(list, HttpStatus.OK);
 			}else {
@@ -138,22 +138,22 @@ public class RoutineController {
 		}
 	}
 	
-	@Operation(summary = "특정 유저의 선택된 날짜의 루틴 개수 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴개수, '2024-11'라면 2024년 11월의 모든 루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 루틴개수를 가져오는 방식")
-	@GetMapping("/count")
-	public  ResponseEntity<?> getCountRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
+	@Operation(summary = "특정 유저의 선택된 날짜의 루틴 개수 조회", description = "Routine DTO의 exerciseDate와 userId를 이용해 특정 날짜의 루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 루틴개수, '2024-11'라면 2024년 11월의 모든 루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 루틴개수를 가져오는 방식")
+	@PostMapping("/count")
+	public  ResponseEntity<?> getCountRoutine(@RequestBody Routine routine) { // String exerciseDate, int userId
 		try {
-				int count = routineService.selectCountDayRoutine(exerciseDate, userId);
+				int count = routineService.selectCountDayRoutine(routine);
 				return new ResponseEntity<Integer>(count, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "getCountRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@Operation(summary = "특정 유저의 선택된 날짜의 완료된 루틴 개수 조회", description = "Post로 바꿀까 생각중... / exerciseDate와 userId를 이용해 특정 날짜의 완료된루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 완료루틴개수, '2024-11'라면 2024년 11월의 모든 완료루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 완료루틴개수를 가져오는 방식")
-	@GetMapping("/count/complete")
-	public  ResponseEntity<?> getCountCompleteRoutine(@RequestParam String exerciseDate, @RequestParam int userId) { // String exerciseDate, int userId
+	@Operation(summary = "특정 유저의 선택된 날짜의 완료된 루틴 개수 조회", description = "Routine DTO의 exerciseDate와 userId를 이용해 특정 날짜의 완료된루틴개수를 가져오는데, like로 구현되어 exerciseDate가 '2024'라면 2024년의 모든 완료루틴개수, '2024-11'라면 2024년 11월의 모든 완료루틴개수, '2024-11-20'라면 2024년 11월 20일의 모든 완료루틴개수를 가져오는 방식")
+	@PostMapping("/count/complete")
+	public  ResponseEntity<?> getCountCompleteRoutine(@RequestBody Routine routine) { // String exerciseDate, int userId
 		try {
-				int count = routineService.selectCountDayCompletedRoutine(exerciseDate, userId);
+				int count = routineService.selectCountDayCompletedRoutine(routine);
 				return new ResponseEntity<Integer>(count, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "getCountRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);

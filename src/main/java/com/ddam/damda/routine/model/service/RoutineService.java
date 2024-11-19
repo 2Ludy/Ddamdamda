@@ -8,7 +8,7 @@ public interface RoutineService {
 	
 	List<Routine> selectAllRoutineByUserId(int userId);
 	
-	List<Routine> selectDateRoutineByUserId(String exerciseDate, int userId); // String exerciseDate, int userId
+	List<Routine> selectDateRoutineByUserId(Routine routine); // String exerciseDate, int userId
 	
 	Routine selectRoutineById(int id);
 	
@@ -20,8 +20,8 @@ public interface RoutineService {
 	
 	int deleteRoutineById(int id);
 	
-	int selectCountDayRoutine(String exerciseDate, int userId); // String exerciseDate, int userId
+	int selectCountDayRoutine(Routine routine); // String exerciseDate, int userId
 	
-	int selectCountDayCompletedRoutine(String exerciseDate, int userId); // String exerciseDate, int userId
+	int selectCountDayCompletedRoutine(Routine routine); // String exerciseDate, int userId
 
 }
