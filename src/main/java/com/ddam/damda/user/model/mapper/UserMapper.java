@@ -8,6 +8,8 @@ public interface UserMapper {
 	
 	User findByUsername(String username);
 	
+	User findById(int id);
+	
 	int save(User user);
 	
 	User validByUsername(String username);

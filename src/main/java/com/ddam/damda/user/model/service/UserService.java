@@ -10,6 +10,8 @@ public interface UserService {
 	
 	Optional<User> findByUsername(String username);
 	
+	User findById(int id);
+	
 	User save(User user);
 	
 	boolean validByUsername(String username);
