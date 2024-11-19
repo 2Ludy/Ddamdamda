@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ddam.damda.common.util.GPageRequest;
 import com.ddam.damda.group.model.GroupInfo;
 import com.ddam.damda.group.model.GroupMembers;
-import com.ddam.damda.group.model.mapper.GroupInfoMapper;
 import com.ddam.damda.group.model.mapper.GroupMembersMapper;
+import com.ddam.damda.user.model.Notice;
 import com.ddam.damda.user.model.User;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.ddam.damda.user.model.service.NoticeService;
 
 @Service
 public class GroupMembersServiceImpl implements GroupMembersService {
@@ -23,6 +21,9 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 	
 	@Autowired
 	private GroupInfoService groupInfoService;
+	
+	@Autowired
+	private NoticeService noticeService;
 
 	@Override
 	@Transactional
@@ -41,6 +42,18 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 		if(cM >= mC) return 0; // 만약 현재 인원이 최대 인원에 도달했다면 로직 실행 불가
 		
 		groupInfoService.increaseCurrentMembers(groupId);
+		
+		String groupName = groupInfo.getGroupName();
+		Notice notice = new Notice();
+		notice.setReferenceType("group_member");
+		notice.setReferenceId(groupId);
+		notice.setContent("\"" + groupName + "\" 그룹에 새 멤버가 추가되었습니다.");
+		List<User> users = selectAllGroupMembers(groupId);
+		for(User user : users) {
+			int userId = user.getId();
+			notice.setUserId(userId);
+			noticeService.insertNotice(notice);
+		}
 		return groupMembersMapper.insertGroupMembers(groupMembers);
 	}
 

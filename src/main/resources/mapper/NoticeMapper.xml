@@ -15,26 +15,26 @@
 		WHERE id = #{id}
 	</select>
 	
-	<insert id="insertGComment" parameterType="GComment" useGeneratedKeys="true" keyProperty="id">
-	    INSERT INTO gcomment (
+	<insert id="insertNotice" parameterType="Notice" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO notice (
 	        user_id,
 	        content,
-	        gnotice_id
+	        reference_type
 	    ) VALUES (
 	        #{userId},
 	        #{content},
-	        #{gnoticeId}
+	        #{referenceType}
 	    )
 	</insert>
 
-	<delete id="deleteGComment">
-		DELETE FROM gcomment
+	<delete id="deleteNotice">
+		DELETE FROM notice
 		WHERE id = #{id}
 	</delete>
 	
-	<update id="updateGComment">
-		UPDATE gcomment
-		SET content = #{content}, created_at = now()
+	<update id="updateNotice">
+		UPDATE notice
+		SET is_read = TRUE
 		WHERE id = #{id}
 	</update>
 
