@@ -33,7 +33,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@Operation(summary = "board리스트", description = "board리스트를 페이지 네이션으로 가져오는 메서드, PageRequest DTO 에서 pageNum, pageSize를 기반으로 페이지 네이션을 반환하며, keyword(컬럼명)가 null이 아니라면, search(내용)으로 정보를 찾고, orderBy(정렬 기준 테이블명)가 null이 아니라면 orderDir(DESC OR ASC)으로 정렬함")
+	@Operation(summary = "board리스트", description = "board리스트를 페이지 네이션으로 가져오는 메서드, PageRequest DTO 에서 pageNum, pageSize를 기반으로 페이지 네이션을 반환하며, search(내용)이 null 이 아니라면 매칭되는 title, content로 정보를 찾고, orderBy(정렬 기준 테이블명)가 null이 아니라면 orderDir(DESC OR ASC)으로 정렬함")
 	@PostMapping("/page")
 	public ResponseEntity<?> selectAllBoard(@RequestBody PageRequest preq) {
 		try {
