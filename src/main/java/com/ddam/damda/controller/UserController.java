@@ -1,21 +1,15 @@
 package com.ddam.damda.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ddam.damda.jwt.model.ApiResponse;
-import com.ddam.damda.jwt.model.Token;
 import com.ddam.damda.jwt.model.service.JwtService;
 import com.ddam.damda.jwt.model.service.TokenService;
 import com.ddam.damda.user.model.User;
@@ -27,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/user")
-//@CrossOrigin("*")
+@CrossOrigin("*")
 public class UserController {
 
 	@Autowired
@@ -64,6 +58,20 @@ public class UserController {
     		return new ResponseEntity<>(new ApiResponse("success", "사용 가능한 이메일입니다.", 200), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("error", "서버 오류가 발생했습니다.", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    }
+	
+	@Operation(summary = "id를 이용하여 user정보를 가져오는 메서드", description = "int로 id를 받아 user정보를 가져오는 메서드")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findId(@PathVariable int id) {
+    	try {
+    		User user = userService.findById(id);
+    		if(user != null) {
+    			return new ResponseEntity<User>(user, HttpStatus.OK);
+    		}
+    		return new ResponseEntity<>(new ApiResponse("fail", "findId", 400), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("error", "findId", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
     
