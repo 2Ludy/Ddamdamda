@@ -7,8 +7,8 @@
 	    SELECT id, user_id userId, category, title, content, view_count viewCount, likes_count likesCount, comments_count commentsCount, created_at createdAt
 	    FROM board
 	    <where>
-	        <if test="keyword != null">
-	            ${keyword} LIKE CONCAT('%', #{search}, '%')
+	        <if test="search != null">
+	            title LIKE CONCAT('%', #{search}, '%') OR content LIKE CONCAT('%', #{search}, '%')
 	        </if>
 	    </where>
 	    <if test="orderBy != null">

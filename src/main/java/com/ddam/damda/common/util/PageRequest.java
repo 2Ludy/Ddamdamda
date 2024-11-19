@@ -15,7 +15,7 @@ import lombok.ToString;
 public class PageRequest {
 	private int pageNum;
 	private int pageSize;
-	private String keyword;
+//	private String keyword;
     private String search;
     private String orderBy;
     private String orderDir;
