@@ -18,5 +18,6 @@ public class Comment {
 	private String content;
 	private int boardId;
 	private String createdAt;
+	private String username;
 
 }
