@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/groupinfo")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class GroupInfoController {
 	
 	@Autowired

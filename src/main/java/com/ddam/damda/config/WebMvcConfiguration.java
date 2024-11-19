@@ -47,6 +47,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 						HttpMethod.PATCH.name())
 //				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD")
 //				.allowedMethods("*")
+				.allowedHeaders("*")  // 모든 헤더 허용
+	            .allowCredentials(true)  // credentials 허용
 				.maxAge(1800); // 1800초 동안 preflight 결과를 캐시에 저장
 	}
 	

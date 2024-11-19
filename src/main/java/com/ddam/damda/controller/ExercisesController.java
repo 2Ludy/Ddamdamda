@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/exercises")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class ExercisesController {
 	
 	@Autowired

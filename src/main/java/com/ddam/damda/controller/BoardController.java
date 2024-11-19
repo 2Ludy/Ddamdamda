@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/board")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class BoardController {
 	
 	@Autowired

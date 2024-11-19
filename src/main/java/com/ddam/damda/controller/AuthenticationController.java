@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AuthenticationController {
 
     private final AuthenticationService authService;

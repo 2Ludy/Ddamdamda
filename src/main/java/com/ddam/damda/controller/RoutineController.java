@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/routine")
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class RoutineController {
 	
 	@Autowired
