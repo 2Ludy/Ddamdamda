@@ -70,4 +70,9 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 		return groupInfoMapper.decreaseCurrentMembers(groupId);
 	}
 
+	@Override
+	public List<GroupInfo> selectUserGroupInfos(int userId) {
+		return groupInfoMapper.selectUserGroupInfos(userId);
+	}
+
 }

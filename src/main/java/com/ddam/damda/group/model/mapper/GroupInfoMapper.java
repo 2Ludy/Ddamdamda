@@ -10,6 +10,8 @@ public interface GroupInfoMapper {
 	
 	List<GroupInfo> selectAllGroupInfos(GPageRequest preq);
 	
+	List<GroupInfo> selectUserGroupInfos(int userId);
+	
 	GroupInfo selectGroupInfo(int groupId);
 	
 	int insertGroupInfo(GroupInfo groupInfo); // group_name, description, admin_id, group_img, region, exercise_type, member_count

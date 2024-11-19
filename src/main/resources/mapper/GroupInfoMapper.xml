@@ -26,6 +26,27 @@
 	    </where>
 	</select>
 	
+	<select id="selectUserGroupInfos" resultType="GroupInfo">
+	    SELECT 
+	   	group_id groupId,
+	   	group_name groupName,
+	   	description,
+	   	admin_id adminId,
+	   	group_img groupImg,
+	   	mate_status mateStatus,
+	   	region,
+	   	exercise_type exerciseType,
+	   	current_members currentMembers,
+	   	member_count memberCount
+	   	
+	   	FROM group_info
+	   	
+		WHERE group_id IN (
+        SELECT group_id 
+        FROM group_members 
+        WHERE user_id = #{userId}
+	</select>
+	
 	<select id="selectGroupInfo" resultType="GroupInfo">
 	    SELECT 
 	   	group_id groupId,

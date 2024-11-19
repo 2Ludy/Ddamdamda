@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Gcomment {
+public class GComment {
 	
 	private int id;
 	private int userId;

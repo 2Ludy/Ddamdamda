@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.group.model.mapper.GroupMembersMapper">
+	
+	<select id="selectAllGroupMembers" resultType="User">
+	    SELECT 
+	   	id,
+	   	email,
+	   	username,
+	   	profile_image_id profileImageId
+	   	
+	   	FROM user
+	   	
+		WHERE id IN (
+        SELECT user_id 
+        FROM group_members 
+        WHERE group_id = #{groupId}
+        )
+	</select>
+	
+	<select id="selectGroupMembersById" resultType="GroupMembers">
+	    SELECT 
+	   	id,
+	   	group_id groupId,
+	   	user_id userId
+	   	
+	   	FROM group_members
+	   	
+		WHERE id = #{id}
+	</select>	
+	
+	<insert id="insertGroupMembers" parameterType="GroupMembers" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO group_members (
+	       group_id,
+	       user_id
+	    ) VALUES (
+	        #{groupId},
+	        #{userId}
+	    )
+	</insert>
+
+	<delete id="deleteGroupMembers">
+		DELETE FROM group_members
+		WHERE group_id = #{groupId} AND user_id = #{userId}
+	</delete>
+	
+	<delete id="deleteGroupMembersById">
+		DELETE FROM group_members
+		WHERE id = #{id}
+	</delete>
+	
+
+</mapper>

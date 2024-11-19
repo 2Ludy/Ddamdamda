@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.group.model.mapper.GroupNoticeMapper">
+
+
+	<select id="selectAllGroupNotice" resultType="GroupNotice">
+	    SELECT gnotice_id gnoticeId, group_id groupId, title, content, created_at createdAt
+	    FROM group_notice
+	    <where>
+	    		group_id = #{groupId}
+	        <if test="search != null">
+	            AND (title LIKE CONCAT('%', #{search}, '%') OR content LIKE CONCAT('%', #{search}, '%'))
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="selectGroupNotice" resultType="GroupNotice">
+		SELECT gnotice_id gnoticeId, group_id groupId, title, content, created_at createdAt
+		FROM group_notice
+		WHERE gnotice_id = #{gnoticeId}
+	</select>
+	
+	<insert id="insertGroupNotice" parameterType="GroupNotice" useGeneratedKeys="true" keyProperty="gnoticeId">
+	    INSERT INTO group_notice (
+	        group_id,
+	        title,
+	        content
+	    ) VALUES (
+	        #{groupId},
+	        #{title},
+	        #{content}
+	    )
+	</insert>
+
+	<delete id="deleteBoard">
+		DELETE FROM group_notice
+		WHERE gnotice_id = #{gnoticeId}
+	</delete>
+	
+	<update id="updateBoard">
+		UPDATE group_notice
+		SET title = #{title}, content = #{content}, created_at = now()
+		WHERE gnotice_id = #{gnoticeId}
+	</update>
+	
+
+</mapper>

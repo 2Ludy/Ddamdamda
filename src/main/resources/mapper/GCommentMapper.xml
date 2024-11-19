@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddam.damda.group.model.mapper.GCommentMapper">
+
+
+	<select id="selectAllGComments" resultType="GComment">
+	    SELECT id, user_id userId, content, gnotice_id gnoticeId, created_at createdAt
+	    FROM gcomment
+	    WHERE gnotice_id = #{gnoticeId}
+	</select>
+	
+	<select id="selectGComment" resultType="GComment">
+		SELECT id, user_id userId, content, gnotice_id gnoticeId, created_at createdAt
+		FROM gcomment
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertGComment" parameterType="GComment" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO gcomment (
+	        user_id,
+	        content,
+	        gnotice_id
+	    ) VALUES (
+	        #{userId},
+	        #{content},
+	        #{gnoticeId}
+	    )
+	</insert>
+
+	<delete id="deleteGComment">
+		DELETE FROM gcomment
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateGComment">
+		UPDATE gcomment
+		SET content = #{content}, created_at = now()
+		WHERE id = #{id}
+	</update>
+
+</mapper>
