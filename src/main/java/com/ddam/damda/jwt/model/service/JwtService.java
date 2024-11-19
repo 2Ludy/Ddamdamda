@@ -96,7 +96,7 @@ public class JwtService {
     private String generateToken(User user, long expireTime) {
         String token = Jwts
                 .builder()
-                .subject(user.getUsername())
+                .subject(user.getEmail())
                 .claim("id", user.getId())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expireTime ))
