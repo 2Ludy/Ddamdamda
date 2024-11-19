@@ -23,8 +23,8 @@ public class RoutineServiceImpl implements RoutineService {
 
 	@Override
 	@Transactional
-	public List<Routine> selectDateRoutineByUserId(String exerciseDate, int userId) {
-		return routineMapper.selectDateRoutineByUserId(exerciseDate, userId);
+	public List<Routine> selectDateRoutineByUserId(Routine routine) {
+		return routineMapper.selectDateRoutineByUserId(routine);
 	}
 
 	@Override
@@ -59,14 +59,14 @@ public class RoutineServiceImpl implements RoutineService {
 
 	@Override
 	@Transactional
-	public int selectCountDayRoutine(String exerciseDate, int userId) {
-		return routineMapper.selectCountDayRoutine(exerciseDate, userId);
+	public int selectCountDayRoutine(Routine routine) {
+		return routineMapper.selectCountDayRoutine(routine);
 	}
 
 	@Override
 	@Transactional
-	public int selectCountDayCompletedRoutine(String exerciseDate, int userId) {
-		return routineMapper.selectCountDayCompletedRoutine(exerciseDate, userId);
+	public int selectCountDayCompletedRoutine(Routine routine) {
+		return routineMapper.selectCountDayCompletedRoutine(routine);
 	}
 
 }
