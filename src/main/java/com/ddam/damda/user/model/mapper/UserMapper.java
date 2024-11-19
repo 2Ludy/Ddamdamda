@@ -17,5 +17,7 @@ public interface UserMapper {
 	User validByEmail(String email);
 
 	int updatePassword(String email, String password);
+	
+	String findUserNameById(int id);
 
 }
