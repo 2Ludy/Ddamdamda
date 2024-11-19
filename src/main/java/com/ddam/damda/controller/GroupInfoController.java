@@ -1,9 +1,10 @@
 package com.ddam.damda.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,6 +98,19 @@ public class GroupInfoController {
 			return new ResponseEntity<>(new ApiResponse("fail", "editGroupInfo", 400), HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "editGroupInfo", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@Operation(summary = "특정 User가 참여하는 GroupInfo 리스트 보기", description = "userId를 이용하여 해당 유저가 참여하고 있는 GroupInfo 리스트를 모두 가져오는 메서드")
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> selectUserGroupInfo(@PathVariable int userId) {
+		try {
+			List<GroupInfo> groupInfos = groupInfoService.selectUserGroupInfos(userId);
+			if(groupInfos.size() != 0) return new ResponseEntity<List<GroupInfo>>(groupInfos,HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse("Not Found", "selectUserGroupInfo", 400), HttpStatus.BAD_REQUEST);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("Error", "selectUserGroupInfo", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

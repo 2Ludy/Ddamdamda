@@ -1,5 +1,7 @@
 package com.ddam.damda.group.model.service;
 
+import java.util.List;
+
 import com.ddam.damda.common.util.GPageRequest;
 import com.ddam.damda.group.model.GroupInfo;
 import com.github.pagehelper.PageInfo;
@@ -7,6 +9,8 @@ import com.github.pagehelper.PageInfo;
 public interface GroupInfoService {
 	
 	PageInfo<GroupInfo> selectAllGroupInfos(GPageRequest preq);
+	
+	List<GroupInfo> selectUserGroupInfos(int userId);
 	
 	GroupInfo selectGroupInfo(int groupId);
 	
