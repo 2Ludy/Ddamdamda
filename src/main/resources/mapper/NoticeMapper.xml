@@ -24,7 +24,7 @@
 	    ) VALUES (
 	        #{userId},
 	        #{content},
-	        #{referenceId}
+	        #{referenceId},
 	        #{referenceType}
 	    )
 	</insert>
