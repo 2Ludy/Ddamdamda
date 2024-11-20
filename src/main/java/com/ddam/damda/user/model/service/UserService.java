@@ -1,6 +1,9 @@
 package com.ddam.damda.user.model.service;
 
+import java.io.IOException;
 import java.util.Optional;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddam.damda.user.model.User;
 
@@ -21,5 +24,7 @@ public interface UserService {
 	boolean updatePassword(String email, String newPassword);
 	
 	String findUserNameById(int id);
+	
+	boolean updateProfile(User currentUser, MultipartFile imageFile, User request) throws IOException;
 
 }

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddam.damda.common.util.GPageRequest;
 import com.ddam.damda.group.model.GroupInfo;
@@ -61,17 +63,37 @@ public class GroupInfoController {
 	
 	@Operation(summary = "GroupInfo 추가", description = "GroupInfo DTO의 groupName, description, adminId, groupImg, region, exerciseType, memberCount 를 이용하여 GroupInfo를 추가하는 메서드")
 	@PostMapping("")
-	public ResponseEntity<?> addGroupInfo(@RequestBody GroupInfo groupInfo) {
-		try {
-			int isS = groupInfoService.insertGroupInfo(groupInfo);
-			if(isS > 0) {
-				return new ResponseEntity<>(new ApiResponse("Success", "addGroupInfo", 200), HttpStatus.OK);
-			}
-			return new ResponseEntity<>(new ApiResponse("fail", "addGroupInfo", 400), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse("Error", "addGroupInfo", 500), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    public ResponseEntity<?> addGroupInfo(
+            @RequestPart("groupInfo") GroupInfo groupInfo,
+            @RequestPart("imageFile") MultipartFile imageFile) {
+        try {
+            // 이미지 파일 유효성 검사
+            if (imageFile.isEmpty()) {
+                return new ResponseEntity<>(
+                    new ApiResponse("fail", "그룹 이미지는 필수입니다.", 400), 
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+            
+            int isS = groupInfoService.insertGroupInfo(groupInfo, imageFile);
+            if(isS > 0) {
+                return new ResponseEntity<>(
+                    new ApiResponse("success", "그룹이 생성되었습니다.", 200), 
+                    HttpStatus.OK
+                );
+            }
+            return new ResponseEntity<>(
+                new ApiResponse("fail", "그룹 생성에 실패했습니다.", 400), 
+                HttpStatus.BAD_REQUEST
+            );
+        } catch (Exception e) {
+            log.error("그룹 생성 실패", e);
+            return new ResponseEntity<>(
+                new ApiResponse("error", "서버 오류가 발생했습니다.", 500), 
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }	
 	
 	@Operation(summary = "GroupInfo 삭제", description = "id를 이용하여 해당 GroupInfo를 삭제하는 메서드")
 	@DeleteMapping("/{id}")
@@ -89,17 +111,29 @@ public class GroupInfoController {
 	
 	@Operation(summary = "GroupInfo 수정", description = "GroupInfo DTO의 groupName, description, groupImg, mateStatus, region, exerciseType, memberCount 를 이용하여 GroupInfo를 수정하는 메서드, current_members도 해당 객체에 포함되어함!!!! 현재인원/최대인원의 로직을 판단함")
 	@PutMapping("")
-	public ResponseEntity<?> editGroupInfo(@RequestBody GroupInfo groupInfo) {
-		try {
-			int isS = groupInfoService.updateGroupInfo(groupInfo);
-			if(isS > 0) {
-				return new ResponseEntity<>(new ApiResponse("Success", "editGroupInfo", 200), HttpStatus.OK);
-			}
-			return new ResponseEntity<>(new ApiResponse("fail", "editGroupInfo", 400), HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			return new ResponseEntity<>(new ApiResponse("Error", "editGroupInfo", 500), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    public ResponseEntity<?> editGroupInfo(
+            @RequestPart("groupInfo") GroupInfo groupInfo,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile) {
+        try {
+            int isS = groupInfoService.updateGroupInfo(groupInfo, imageFile);
+            if(isS > 0) {
+                return new ResponseEntity<>(
+                    new ApiResponse("success", "그룹 정보가 수정되었습니다.", 200), 
+                    HttpStatus.OK
+                );
+            }
+            return new ResponseEntity<>(
+                new ApiResponse("fail", "그룹 수정에 실패했습니다.", 400), 
+                HttpStatus.BAD_REQUEST
+            );
+        } catch (Exception e) {
+            log.error("그룹 수정 실패", e);
+            return new ResponseEntity<>(
+                new ApiResponse("error", "서버 오류가 발생했습니다.", 500), 
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 	
 	@Operation(summary = "특정 User가 참여하는 GroupInfo 리스트 보기", description = "userId를 이용하여 해당 유저가 참여하고 있는 GroupInfo 리스트를 모두 가져오는 메서드")
 	@GetMapping("/user/{id}")
