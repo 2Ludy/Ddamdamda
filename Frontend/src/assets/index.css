@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+ body {
+   @apply bg-gray-50;
+ }
+}
+
+@layer components {
+ .highlight {
+   @apply px-3 py-1 bg-[#dcff1f] text-black rounded-full text-xs font-medium;
+ }
+
+ .card {
+   @apply bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-200;
+ }
+
+ .card:hover {
+   @apply shadow-xl;
+ }
+}
