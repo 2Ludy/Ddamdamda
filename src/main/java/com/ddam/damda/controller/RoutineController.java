@@ -41,7 +41,7 @@ public class RoutineController {
 			if(list.size() != 0) {
 				return new ResponseEntity<List<Routine>>(list, HttpStatus.OK);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "getAllRoutine", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "getAllRoutine", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "getAllRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,7 +56,7 @@ public class RoutineController {
 			if(list.size() != 0) {
 				return new ResponseEntity<List<Routine>>(list, HttpStatus.OK);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "getDateRoutine", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "getDateRoutine", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "getDateRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +71,7 @@ public class RoutineController {
 			if(routine != null) {
 				return new ResponseEntity<Routine>(routine, HttpStatus.OK);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "getRoutine", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "getRoutine", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "getRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,7 +101,7 @@ public class RoutineController {
 			if(isS > 0) {
 				return new ResponseEntity<>(new ApiResponse("Success", "updateSetsReps", 201), HttpStatus.CREATED);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "updateSetsReps", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "updateSetsReps", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "updateSetsReps", 500), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,7 +116,7 @@ public class RoutineController {
 			if(isS > 0) {
 				return new ResponseEntity<>(new ApiResponse("Success", "completeRoutine", 201), HttpStatus.CREATED);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "completeRoutine", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "completeRoutine", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "completeRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -131,7 +131,7 @@ public class RoutineController {
 			if(isS > 0) {
 				return new ResponseEntity<>(new ApiResponse("Success", "deleteRoutine", 201), HttpStatus.CREATED);
 			}else {
-				return new ResponseEntity<>(new ApiResponse("Fail", "deleteRoutine", 404), HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ApiResponse("Fail", "deleteRoutine", 400), HttpStatus.BAD_REQUEST);
 			}
 		}catch (Exception e) {
 			return new ResponseEntity<>(new ApiResponse("Error", "deleteRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
