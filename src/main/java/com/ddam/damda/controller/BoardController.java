@@ -100,4 +100,18 @@ public class BoardController {
 			return new ResponseEntity<>(new ApiResponse("Error", "editBoard", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@Operation(summary = "board 조회수 증가", description = "board 의 id를 이용하여 조회수를 증가시키는 메서드")
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateViewCount(@PathVariable int id) {
+		try {
+			int isS = boardService.updateViewCount(id);
+			if(isS > 0) {
+				return new ResponseEntity<>(new ApiResponse("Success", "updateViewCount", 200), HttpStatus.OK);
+			}
+			return new ResponseEntity<>(new ApiResponse("fail", "updateViewCount", 400), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("Error", "updateViewCount", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

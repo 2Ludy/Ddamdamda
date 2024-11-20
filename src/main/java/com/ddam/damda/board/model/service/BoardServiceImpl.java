@@ -35,7 +35,6 @@ public class BoardServiceImpl implements BoardService {
 	@Transactional
 	@Override
 	public Board selectBoard(int id) {
-		updateViewCount(id);
 		return boardMapper.selectBoard(id);
 	}
 
