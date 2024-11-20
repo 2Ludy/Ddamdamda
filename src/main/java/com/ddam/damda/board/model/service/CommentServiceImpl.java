@@ -74,7 +74,7 @@ public class CommentServiceImpl implements CommentService {
 		Comment com = selectComment(id);
 		int boardId = com.getBoardId();
 		boardService.decreaseCommentsCount(boardId);
-		return commentMapper.deleteComment(boardId);
+		return commentMapper.deleteComment(id);
 	}
 
 	@Override
