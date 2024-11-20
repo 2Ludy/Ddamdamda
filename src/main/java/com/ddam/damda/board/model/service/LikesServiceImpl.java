@@ -55,11 +55,14 @@ public class LikesServiceImpl implements LikesService {
 
 	@Override
 	@Transactional
-	public int deleteLikes(int id) {
+	public int deleteLikes(Likes likes) {
+		Likes current = haveLikes(likes);
+		int id = current.getId();
+		int boardId = current.getBoardId();
+		
 		int isS = likesMapper.deleteLikes(id);
 		if(isS <= 0) return isS;
-		Likes likes = selectLikes(id);
-		int boardId = likes.getBoardId();
+		
 		boardService.decreaseLikesCount(boardId);
 		return isS;
 	}

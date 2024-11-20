@@ -10,6 +10,6 @@ public interface LikesService {
 	
 	int insertLikes(Likes likes); // user_id, board_id
 	
-	int deleteLikes(int id);
+	int deleteLikes(Likes likes);
 
 }

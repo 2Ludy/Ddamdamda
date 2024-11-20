@@ -60,9 +60,7 @@ public class LikesController {
 	@DeleteMapping("")
 	public ResponseEntity<?> deleteLikes(@RequestBody Likes request) { // userId, boardId만 사용
 		try {
-			Likes likes = likesService.haveLikes(request);
-			int id = likes.getId();
-			int isS = likesService.deleteLikes(id);
+			int isS = likesService.deleteLikes(request);
 			if(isS > 0) {
 				return new ResponseEntity<>(new ApiResponse("Success", "deleteLikes", 200), HttpStatus.OK);
 			}
