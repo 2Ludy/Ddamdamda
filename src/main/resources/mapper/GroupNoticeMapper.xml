@@ -32,16 +32,15 @@
 	    )
 	</insert>
 
-	<delete id="deleteBoard">
-		DELETE FROM group_notice
-		WHERE gnotice_id = #{gnoticeId}
+	<delete id="deleteGroupNotice">
+	    DELETE FROM group_notice
+	    WHERE gnotice_id = #{gnoticeId}
 	</delete>
 	
-	<update id="updateBoard">
-		UPDATE group_notice
-		SET title = #{title}, content = #{content}, created_at = now()
-		WHERE gnotice_id = #{gnoticeId}
+	<update id="updateGroupNotice">
+	    UPDATE group_notice
+	    SET title = #{title}, content = #{content}, created_at = now()
+	    WHERE gnotice_id = #{gnoticeId}
 	</update>
-	
 
 </mapper>

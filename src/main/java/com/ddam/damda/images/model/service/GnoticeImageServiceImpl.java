@@ -12,7 +12,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ddam.damda.images.model.GnoticeImage;
 import com.ddam.damda.images.model.mapper.GnoticeImageMapper;
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class GnoticeImageServiceImpl implements GnoticeImageService {
     
     @Autowired
@@ -33,62 +36,61 @@ public class GnoticeImageServiceImpl implements GnoticeImageService {
     @Autowired
     private ResourceLoader resourceLoader;
     
-    // 초기화 (디렉토리 생성)
+    @PostConstruct  // 서버 시작시 자동 실행
     @Override
     public void init() {
         try {
             String path = uploadDir.replace("file:", "");
-            File directory = new File(path);
-            
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-            
-            // gnotice 이미지용 디렉토리 생성
-            File gnoticeDir = new File(directory, "gnotice");
-            if (!gnoticeDir.exists()) {
-            	gnoticeDir.mkdirs();
-            }
+            Files.createDirectories(Paths.get(path));
+            Files.createDirectories(Paths.get(path, "gnotice"));
+            log.info("Gnotice image directory initialized");
         } catch (Exception e) {
-            System.err.println("Error creating directory: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Failed to create gnotice image directory", e);
+            throw new RuntimeException("Could not initialize storage", e);
         }
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public GnoticeImage findById(int id) {
+        return gnoticeImageMapper.selectById(id);
     }
 
     // 이미지 저장
     @Transactional
     @Override
     public GnoticeImage saveGnoticeImage(MultipartFile file, int gnoticeId) throws IOException {
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = getFileExtension(originalFileName);
-        String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
-        
-        // 날짜 기반 경로 생성
-        String datePath = createDateBasedPath();
-        String filePath = "gnotice/" + datePath + uniqueFileName;
-        
-        // GnoticeImage 엔티티 생성
-        GnoticeImage gnoticeImage = new GnoticeImage();
-        gnoticeImage.setGnoticeId(gnoticeId);
-        gnoticeImage.setFileName(uniqueFileName);
-        gnoticeImage.setFilePath(filePath);
-        gnoticeImage.setFileType(file.getContentType());
-        
-        // DB 저장
-        gnoticeImageMapper.insertGnoticeImage(gnoticeImage);
-        
-        // 실제 파일 저장
-        Resource resource = resourceLoader.getResource(uploadDir);
-        String basePath = resource.getFile().getAbsolutePath();
-        File gnoticeDir = new File(basePath + "/gnotice/" + datePath);
-        if (!gnoticeDir.exists()) {
-        	gnoticeDir.mkdirs();
+        try {
+            String originalFileName = file.getOriginalFilename();
+            String fileExtension = getFileExtension(originalFileName);
+            String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
+            
+            String datePath = createDateBasedPath();
+            String filePath = "gnotice/" + datePath + uniqueFileName;
+            
+            GnoticeImage gnoticeImage = new GnoticeImage();
+            gnoticeImage.setGnoticeId(gnoticeId);
+            gnoticeImage.setFileName(uniqueFileName);
+            gnoticeImage.setFilePath(filePath);
+            gnoticeImage.setFileType(file.getContentType());
+            
+            // DB 저장
+            gnoticeImageMapper.insertGnoticeImage(gnoticeImage);
+            
+            // 파일 저장
+            Path uploadPath = Paths.get(uploadDir.replace("file:", ""), "gnotice", datePath);
+            Files.createDirectories(uploadPath);
+            
+            Path destinationPath = uploadPath.resolve(uniqueFileName);
+            try (var inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            }
+            
+            return gnoticeImage;
+        } catch (Exception e) {
+            log.error("Failed to save gnotice image", e);
+            throw e;
         }
-        
-        Path path = Paths.get(gnoticeDir.getAbsolutePath(), uniqueFileName);
-        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        
-        return gnoticeImage;
     }
 
     // 게시글의 모든 이미지 조회
