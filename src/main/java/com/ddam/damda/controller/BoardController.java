@@ -2,8 +2,10 @@ package com.ddam.damda.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ddam.damda.board.model.Board;
 import com.ddam.damda.board.model.service.BoardService;
 import com.ddam.damda.common.util.PageRequest;
-import com.ddam.damda.images.model.BoardImage;
 import com.ddam.damda.jwt.model.ApiResponse;
 import com.github.pagehelper.PageInfo;
 
@@ -71,7 +72,7 @@ public class BoardController {
     }
 	
 	@Operation(summary = "board추가", description = "board DTO의 id, userId, category, title, content, (List<BoardImage> 타입의 images도 이용)를 이용하여 board 생성")
-	@PostMapping("")
+	@PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> addBoard(
             @RequestPart("board") Board board,
             @RequestPart(value = "images", required = false) List<MultipartFile> images) {
