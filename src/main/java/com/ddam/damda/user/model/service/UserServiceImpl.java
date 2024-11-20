@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String findUserNameById(int id) {
+	public String findUsernameById(int id) {
 		return userMapper.findUserNameById(id);
 	}
 	

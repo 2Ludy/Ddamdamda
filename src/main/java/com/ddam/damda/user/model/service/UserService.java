@@ -23,8 +23,7 @@ public interface UserService {
 	
 	boolean updatePassword(String email, String newPassword);
 	
-	String findUserNameById(int id);
+	String findUsernameById(int id);
 	
 	boolean updateProfile(User currentUser, MultipartFile imageFile, User request) throws IOException;
-
 }
