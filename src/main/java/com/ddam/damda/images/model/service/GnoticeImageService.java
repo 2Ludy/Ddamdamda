@@ -10,23 +10,12 @@ import com.ddam.damda.images.model.GnoticeImage;
 
 public interface GnoticeImageService {
 	
-    // 초기화
-    void init();
-
-    // 이미지 저장
-    GnoticeImage saveGnoticeImage(MultipartFile file, int gnoticeId) throws IOException;
-
-    // 게시글의 모든 이미지 조회
-    List<GnoticeImage> findByGnoticeId(int gnoticeId);
-
-    // 단일 이미지 삭제
-    void deleteImage(int id) throws IOException;
-
-    // 게시글의 모든 이미지 삭제
-    void deleteAllByGnoticeId(int gnoticeId) throws IOException;
-
-    // 이미지 바이트 데이터 조회
-    byte[] getImageBytes(int id) throws IOException;
-
+	   void init();
+	   GnoticeImage saveGnoticeImage(MultipartFile file, int gnoticeId) throws IOException;
+	   List<GnoticeImage> findByGnoticeId(int gnoticeId);
+	   GnoticeImage findById(int id);  // 이 메서드가 누락되어 있었네요
+	   void deleteImage(int id) throws IOException;
+	   void deleteAllByGnoticeId(int gnoticeId) throws IOException;
+	   byte[] getImageBytes(int id) throws IOException;
 
 }

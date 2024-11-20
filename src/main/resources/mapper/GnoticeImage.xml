@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ddam.damda.images.model.mapper.GnoticeImage">
+<mapper namespace="com.ddam.damda.images.model.mapper.GnoticeImageMapper">
 
-	<insert id="insertGnoticeImage" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO gnotice_image (gnotice_id, file_path, file_name, file_type)
-		VALUES(#{gnoticeId}, #{filePath}, #{fileName}, #{fileType})
-	</insert>
-	
-    <select id="selectByGnoticeId" resultType="BoardImage">
-        SELECT id, gnotice_id gnoticeId, file_path filePath, file_name fileName, file_type fileType
-        FROM gnotice_image
-        WHERE gnotice_id = #{gnoticeId}
-    </select>
-    
-    <select id="selectById" resultType="BoardImage">
-        SELECT id, gnotice_id gnoticeId, file_path filePath, file_name fileName, file_type fileType
-        FROM gnotice_image
-        WHERE id = #{id}
-    </select>
-    
-    <delete id="deleteById">
-        DELETE FROM gnotice_image
-        WHERE id = #{id}
-    </delete>
-    
-    <delete id="deleteByGnoticeId">
-        DELETE FROM gnotice_image
-        WHERE gnotice_id = #{gnoticeId}
-    </delete>
-  
+<insert id="insertGnoticeImage" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO gnotice_image (gnotice_id, file_path, file_name, file_type)
+    VALUES(#{gnoticeId}, #{filePath}, #{fileName}, #{fileType})
+</insert>
+
+<select id="selectByGnoticeId" resultType="GnoticeImage">
+    SELECT id, gnotice_id gnoticeId, file_path filePath, file_name fileName, file_type fileType
+    FROM gnotice_image
+    WHERE gnotice_id = #{gnoticeId}
+</select>
+
+<select id="selectById" resultType="GnoticeImage">
+    SELECT id, gnotice_id gnoticeId, file_path filePath, file_name fileName, file_type fileType
+    FROM gnotice_image
+    WHERE id = #{id}
+</select>
+
+<delete id="deleteById">
+    DELETE FROM gnotice_image
+    WHERE id = #{id}
+</delete>
+
+<delete id="deleteByGnoticeId">
+    DELETE FROM gnotice_image
+    WHERE gnotice_id = #{gnoticeId}
+</delete>
+
 </mapper>
