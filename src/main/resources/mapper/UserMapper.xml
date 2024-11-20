@@ -47,7 +47,18 @@
         SELECT username
         FROM user
         WHERE id = #{id}
-    </select>	
+    </select>
+    
+    <update id="updateUser" parameterType="User">
+	    UPDATE user 
+	    SET username = #{username}
+	        <if test="profileImageId != null">
+	            , profile_image_id = #{profileImageId}
+	        </if>
+	    WHERE id = #{id}
+	</update>
+    
+    
 	   
   
 </mapper>

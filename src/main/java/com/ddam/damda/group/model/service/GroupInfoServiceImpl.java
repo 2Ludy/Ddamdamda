@@ -1,22 +1,31 @@
 package com.ddam.damda.group.model.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ddam.damda.common.util.GPageRequest;
 import com.ddam.damda.group.model.GroupInfo;
 import com.ddam.damda.group.model.mapper.GroupInfoMapper;
+import com.ddam.damda.images.model.service.ImagesService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class GroupInfoServiceImpl implements GroupInfoService {
 	
 	@Autowired
 	private GroupInfoMapper groupInfoMapper;
+	
+	@Autowired
+	private ImagesService imageService;
 
 	@Override
 	@Transactional
@@ -36,10 +45,21 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
 	@Override
 	@Transactional
-	public int insertGroupInfo(GroupInfo groupInfo) {
-		// 이미지 처리 따로 필요 이미지 처리 후 반환되는 id를 group_img에 넣어야 함
-		return groupInfoMapper.insertGroupInfo(groupInfo);
-	}
+    public int insertGroupInfo(GroupInfo groupInfo, MultipartFile imageFile) throws IOException {
+        try {
+            // 1. 이미지 저장
+            int imageId = imageService.saveProfileImage(imageFile);
+            
+            // 2. 그룹 정보에 이미지 ID 설정
+            groupInfo.setGroupImg(imageId);
+            
+            // 3. 그룹 정보 저장
+            return groupInfoMapper.insertGroupInfo(groupInfo);
+        } catch (Exception e) {
+            log.error("그룹 생성 실패", e);
+            throw e;
+        }
+    }
 
 	@Override
 	@Transactional
@@ -49,14 +69,32 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
 	@Override
 	@Transactional
-	public int updateGroupInfo(GroupInfo groupInfo) {
-		// 여기도 image 처리 따로 하고 넣어야 할듯 insert랑 비슷
-		int currentMembers = groupInfo.getCurrentMembers();
-		int memberCount = groupInfo.getMemberCount();
-		if(memberCount < currentMembers) return 0;
-		if(memberCount == currentMembers) groupInfo.setMateStatus("마감");
-		return groupInfoMapper.updateGroupInfo(groupInfo);
-	}
+    public int updateGroupInfo(GroupInfo groupInfo, MultipartFile imageFile) throws IOException {
+        try {
+            // 현재 멤버 수 체크
+            int currentMembers = groupInfo.getCurrentMembers();
+            int memberCount = groupInfo.getMemberCount();
+            
+            if(memberCount < currentMembers) {
+                return 0;
+            }
+            
+            if(memberCount == currentMembers) {
+                groupInfo.setMateStatus("마감");
+            }
+            
+            // 새 이미지가 있는 경우 처리
+            if (imageFile != null && !imageFile.isEmpty()) {
+                int imageId = imageService.saveProfileImage(imageFile);
+                groupInfo.setGroupImg(imageId);
+            }
+            
+            return groupInfoMapper.updateGroupInfo(groupInfo);
+        } catch (Exception e) {
+            log.error("그룹 수정 실패", e);
+            throw e;
+        }
+    }
 
 	@Override
 	@Transactional

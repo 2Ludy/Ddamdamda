@@ -2,7 +2,6 @@ package com.ddam.damda.controller;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,61 +18,58 @@ import com.ddam.damda.images.model.service.ImagesService;
 import com.ddam.damda.jwt.model.ApiResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/images")
 public class ImageController {
     
-	@Autowired
-    private ImagesService imageService;
+    private final ImagesService imageService;
     
-	@Operation(summary = "file 업로드", description = "user, groupInfo 쪽에서 이미지 업로드 시 사용될 메서드")
-    @PostMapping("/profile")
+    public ImageController(ImagesService imageService) {
+        this.imageService = imageService;
+    }
+    
+    @Operation(summary = "file 업로드", description = "user, groupInfo 이미지 업로드")
+    @PostMapping("/upload")
     public ResponseEntity<?> uploadProfileImage(@RequestParam("file") MultipartFile file) {
         try {
-            // 파일 유효성 검사
             if (file.isEmpty()) {
-                return new ResponseEntity<>(new ApiResponse("fail", "파일이 비어있습니다", 400), HttpStatus.BAD_REQUEST);
+                return ResponseEntity.badRequest()
+                    .body(new ApiResponse("fail", "파일이 비어있습니다", 400));
             }
             
-            // 이미지 파일 타입 검사
-            String contentType = file.getContentType();
-            if (contentType == null || !contentType.startsWith("image/")) {
-            	 return new ResponseEntity<>(new ApiResponse("fail", "이미지 파일만 업로드 가능합니다", 400), HttpStatus.BAD_REQUEST);
-            }
-            
-            // 이미지 저장
             int imageId = imageService.saveProfileImage(file);
-            
-            return new ResponseEntity<>(new ApiResponse("success", imageId + "번 이미지가 성공적으로 업로드되었습니다", 201),HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ApiResponse("success", 
+                    String.format("%d번 이미지가 업로드되었습니다", imageId), 201));
             
         } catch (IOException e) {
-            return new ResponseEntity<>(new ApiResponse("error", "서버 내부 에러 발생", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("이미지 업로드 실패", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse("error", "서버 내부 에러 발생", 500));
         }
     }
     
-	@Operation(summary = "이미지 정보 조회", description = "id를 이용해 이미지의 정보를 가져오는 메서드")
+    @Operation(summary = "이미지 조회", description = "이미지 ID로 이미지 조회")
     @GetMapping("/{imageId}")
     public ResponseEntity<?> getImage(@PathVariable int imageId) {
         try {
-            Images image = imageService.findById(imageId);
-            if (image == null) {
-                return ResponseEntity.notFound().build();
-            }
-            
             byte[] imageBytes = imageService.getImageBytes(imageId);
             if (imageBytes == null) {
                 return ResponseEntity.notFound().build();
             }
             
+            Images image = imageService.findById(imageId);
             return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getFileType()))
                 .body(imageBytes);
                 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("이미지 조회 실패", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Failed to retrieve image: " + e.getMessage());
+                .body(new ApiResponse("error", "이미지 조회 실패", 500));
         }
     }
 }

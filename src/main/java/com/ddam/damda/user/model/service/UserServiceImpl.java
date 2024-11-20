@@ -1,12 +1,15 @@
 package com.ddam.damda.user.model.service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ddam.damda.images.model.service.ImagesService;
 import com.ddam.damda.user.model.User;
 import com.ddam.damda.user.model.mapper.UserMapper;
 
@@ -18,6 +21,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ImagesService imageService;
 	
 	@Transactional
 	@Override
@@ -79,5 +85,41 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String findUserNameById(int id) {
 		return userMapper.findUserNameById(id);
+	}
+	
+	@Override
+	@Transactional
+	public boolean updateProfile(User currentUser, MultipartFile imageFile, User request) throws IOException {
+	    boolean isUpdated = false;
+	    boolean passwordChanged = false;
+
+	    // 1. 이미지 처리
+	    if (imageFile != null && !imageFile.isEmpty()) {
+	        int imageId = imageService.saveProfileImage(imageFile);
+	        currentUser.setProfileImageId(imageId);
+	        isUpdated = true;
+	    }
+
+	    // 2. 비밀번호 변경
+	    if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+	        String encodedPassword = passwordEncoder.encode(request.getPassword());
+	        userMapper.updatePassword(currentUser.getEmail(), encodedPassword);
+	        passwordChanged = true;
+	        isUpdated = true;
+	    }
+
+	    // 3. username 변경
+	    if (request.getUsername() != null && !request.getUsername().equals(currentUser.getUsername())) {
+	        currentUser.setUsername(request.getUsername());
+	        isUpdated = true;
+	    }
+
+	    // 4. 변경사항이 있으면 저장
+	    if (isUpdated) {
+	        userMapper.updateUser(currentUser);
+	    }
+
+	    // 비밀번호 변경 여부만 반환
+	    return passwordChanged;
 	}
 }
