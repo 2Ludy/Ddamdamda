@@ -26,5 +26,7 @@ public class Board {
 	private int likesCount;
 	private int commentsCount;
 	private String createdAt;
+	
+	private List<BoardImage> images;
 
 }
