@@ -19,10 +19,12 @@
 	    INSERT INTO notice (
 	        user_id,
 	        content,
+	        reference_id,
 	        reference_type
 	    ) VALUES (
 	        #{userId},
 	        #{content},
+	        #{referenceId}
 	        #{referenceType}
 	    )
 	</insert>
