@@ -1,6 +1,5 @@
 package com.ddam.damda.images.model.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,10 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,107 +17,90 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ddam.damda.images.model.BoardImage;
 import com.ddam.damda.images.model.mapper.BoardImageMapper;
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class BoardImageServiceImpl implements BoardImageService {
     
-    @Autowired
-    private BoardImageMapper boardImageMapper;
+    private final BoardImageMapper boardImageMapper;
     
     @Value("${file.upload.directory}")
     private String uploadDir;
     
-    @Autowired
-    private ResourceLoader resourceLoader;
+    public BoardImageServiceImpl(BoardImageMapper boardImageMapper) {
+        this.boardImageMapper = boardImageMapper;
+    }
     
-    // 초기화 (디렉토리 생성)
-    @Override
+    @PostConstruct
     public void init() {
         try {
             String path = uploadDir.replace("file:", "");
-            File directory = new File(path);
-            
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-            
-            // board 이미지용 디렉토리 생성
-            File boardDir = new File(directory, "board");
-            if (!boardDir.exists()) {
-                boardDir.mkdirs();
-            }
+            Files.createDirectories(Paths.get(path));
+            Files.createDirectories(Paths.get(path, "board"));
+            log.info("Board image directory initialized");
         } catch (Exception e) {
-            System.err.println("Error creating directory: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Failed to create board image directory", e);
+            throw new RuntimeException("Could not initialize storage", e);
         }
     }
 
-    // 이미지 저장
-    @Transactional
     @Override
+    @Transactional
     public BoardImage saveBoardImage(MultipartFile file, int boardId) throws IOException {
         String originalFileName = file.getOriginalFilename();
         String fileExtension = getFileExtension(originalFileName);
         String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
         
-        // 날짜 기반 경로 생성
         String datePath = createDateBasedPath();
         String filePath = "board/" + datePath + uniqueFileName;
         
-        // BoardImage 엔티티 생성
         BoardImage boardImage = new BoardImage();
         boardImage.setBoardId(boardId);
         boardImage.setFileName(uniqueFileName);
         boardImage.setFilePath(filePath);
         boardImage.setFileType(file.getContentType());
         
-        // DB 저장
         boardImageMapper.insertBoardImage(boardImage);
         
-        // 실제 파일 저장
-        Resource resource = resourceLoader.getResource(uploadDir);
-        String basePath = resource.getFile().getAbsolutePath();
-        File boardDir = new File(basePath + "/board/" + datePath);
-        if (!boardDir.exists()) {
-            boardDir.mkdirs();
-        }
+        Path fullPath = Paths.get(uploadDir.replace("file:", ""), "board", datePath);
+        Files.createDirectories(fullPath);
         
-        Path path = Paths.get(boardDir.getAbsolutePath(), uniqueFileName);
-        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        Path destinationPath = fullPath.resolve(uniqueFileName);
+        try (var inputStream = file.getInputStream()) {
+            Files.copy(inputStream, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        }
         
         return boardImage;
     }
 
-    // 게시글의 모든 이미지 조회
-    @Transactional
     @Override
+    @Transactional(readOnly = true)
     public List<BoardImage> findByBoardId(int boardId) {
         return boardImageMapper.selectByBoardId(boardId);
     }
 
-    // 이미지 삭제
+    @Override
+    @Transactional(readOnly = true)
+    public BoardImage findById(int id) {
+        return boardImageMapper.selectById(id);
+    }
+
     @Override
     @Transactional
     public void deleteImage(int id) throws IOException {
         BoardImage image = boardImageMapper.selectById(id);
         if (image != null) {
-            // DB에서 삭제
             boardImageMapper.deleteById(id);
             
-            // 실제 파일 삭제
-            String absolutePath;
-            if (uploadDir.startsWith("file:")) {
-                absolutePath = uploadDir.substring(5) + File.separator + image.getFilePath();
-            } else {
-                absolutePath = uploadDir + File.separator + image.getFilePath();
-            }
-            
-            Files.deleteIfExists(Paths.get(absolutePath));
+            Path imagePath = Paths.get(uploadDir.replace("file:", ""), image.getFilePath());
+            Files.deleteIfExists(imagePath);
         }
     }
 
-    // 게시글의 모든 이미지 삭제
-    @Transactional
     @Override
+    @Transactional
     public void deleteAllByBoardId(int boardId) throws IOException {
         List<BoardImage> images = boardImageMapper.selectByBoardId(boardId);
         for (BoardImage image : images) {
@@ -129,24 +108,15 @@ public class BoardImageServiceImpl implements BoardImageService {
         }
     }
 
-    // 이미지 바이트 데이터 조회
-    @Transactional
     @Override
     public byte[] getImageBytes(int id) throws IOException {
         BoardImage image = boardImageMapper.selectById(id);
         if (image == null) return null;
 
-        String absolutePath;
-        if (uploadDir.startsWith("file:")) {
-            absolutePath = uploadDir.substring(5) + File.separator + image.getFilePath();
-        } else {
-            absolutePath = uploadDir + File.separator + image.getFilePath();
-        }
+        Path imagePath = Paths.get(uploadDir.replace("file:", ""), image.getFilePath());
+        if (!Files.exists(imagePath)) return null;
 
-        File file = new File(absolutePath);
-        if (!file.exists()) return null;
-
-        return Files.readAllBytes(file.toPath());
+        return Files.readAllBytes(imagePath);
     }
 
     private String createDateBasedPath() {
@@ -154,7 +124,8 @@ public class BoardImageServiceImpl implements BoardImageService {
         return String.format("%d/%02d/%02d/", 
             now.getYear(), 
             now.getMonthValue(), 
-            now.getDayOfMonth());
+            now.getDayOfMonth()
+        );
     }
     
     private String getFileExtension(String fileName) {
