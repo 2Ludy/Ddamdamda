@@ -6,6 +6,33 @@
 
 DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니스 플랫폼입니다. 개인의 운동 일정 관리부터 운동 메이트 찾기, 커뮤니티 활동까지 - 당신의 건강한 라이프스타일을 위한 모든 것을 담았습니다.
 
+
+## 📚 기술 스택
+<div align=center> 
+  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+  <br>
+  
+  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
+  <br>
+
+  <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
+  <br>
+  
+  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+  <br>
+</div>
+
 ### 🎯 주요 기능
 
 1. **운동 루틴 관리**
@@ -118,12 +145,12 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
 
 ### 📌 2024-11-20
 - **FronEnd 기능 구현 내역**
-   - 게시판 구현 중
-   ![이미지](./img/24-11-19-00_로그인.PNG)
-   ![이미지](./img/24-11-19-01_게시판목록.PNG)
-   ![이미지](./img/24-11-19-02_글쓰기.PNG)
-   ![이미지](./img/24-11-19-03_게시글상세&댓글작성.PNG)
-   ![이미지](./img/24-11-19-04_게시글수정.PNG)
+   - 게시판 구현 완료
+   ![이미지](./img/24-11-20-01_게시글카테고리.PNG)
+   ![이미지](./img/24-11-20-02_게시글카테고리.PNG)
+   ![이미지](./img/24-11-20-03_검색바.PNG)
+   ![이미지](./img/24-11-20-04_게시글이미지.PNG)
+   - 게시글 카테고리, 검색바, 이미지 랜더링 구현
    
 
 - **BackEnd 기능 구현 내역**

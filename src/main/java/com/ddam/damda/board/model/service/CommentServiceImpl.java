@@ -38,7 +38,7 @@ public class CommentServiceImpl implements CommentService {
 		List<Comment> list = commentMapper.selectAllComments(preq);
 		for(Comment c : list) {
 			int userId = c.getUserId();
-			c.setUsername(userService.findUserNameById(userId));
+			c.setUsername(userService.findUsernameById(userId));
 					
 		}
 		PageInfo<Comment> page = new PageInfo<Comment>(list);
