@@ -48,6 +48,9 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
 	@Override
 	@Transactional
 	public int insertGroupNotice(GroupNotice groupNotice) {
+		int isS =  groupNoticeMapper.insertGroupNotice(groupNotice);
+		if(isS <= 0) return isS;
+		
 		Notice notice = new Notice();
 		int groupId = groupNotice.getGroupId();
 		String groupName = groupInfoService.selectGroupInfo(groupId).getGroupName();
@@ -60,7 +63,7 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
 			notice.setUserId(userId);
 			noticeService.insertNotice(notice);
 		}
-		return groupNoticeMapper.insertGroupNotice(groupNotice);
+		return isS;
 	}
 
 	@Override

@@ -41,6 +41,9 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 		
 		if(cM >= mC) return 0; // 만약 현재 인원이 최대 인원에 도달했다면 로직 실행 불가
 		
+		int isS = groupMembersMapper.insertGroupMembers(groupMembers);
+		if(isS <= 0) return isS;
+		
 		groupInfoService.increaseCurrentMembers(groupId);
 		
 		String groupName = groupInfo.getGroupName();
@@ -54,15 +57,17 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 			notice.setUserId(userId);
 			noticeService.insertNotice(notice);
 		}
-		return groupMembersMapper.insertGroupMembers(groupMembers);
+		return isS;
 	}
 
 	@Override
 	@Transactional
 	public int deleteGroupMembers(GroupMembers groupMembers) {
+		int isS = groupMembersMapper.deleteGroupMembers(groupMembers);
+		if(isS <= 0) return isS;
 		int groupId = groupMembers.getGroupId();
 		groupInfoService.decreaseCurrentMembers(groupId);
-		return groupMembersMapper.deleteGroupMembers(groupMembers);
+		return isS;
 	}
 
 	@Override
@@ -70,8 +75,10 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 	public int deleteGroupMembersById(int id) {
 		GroupMembers groupMembers = groupMembersMapper.selectGroupMembersById(id);
 		int groupId = groupMembers.getGroupId();
+		int isS = groupMembersMapper.deleteGroupMembers(groupMembers);
+		if(isS <= 0) return isS;
 		groupInfoService.decreaseCurrentMembers(groupId);
-		return groupMembersMapper.deleteGroupMembers(groupMembers);
+		return isS;
 	}
 	
 	

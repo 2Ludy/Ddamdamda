@@ -37,6 +37,8 @@ public class LikesServiceImpl implements LikesService {
 	@Override
 	@Transactional
 	public int insertLikes(Likes likes) {
+		int isS = likesMapper.insertLikes(likes);
+		if(isS <= 0) return isS;
 		int boardId = likes.getBoardId();
 		boardService.increaseLikesCount(boardId);
 		Board board = boardService.selectBoard(boardId);
@@ -48,16 +50,18 @@ public class LikesServiceImpl implements LikesService {
 		notice.setReferenceType("like");
 		notice.setContent("\"" + title + "\" 글에 좋아요가 추가되었습니다.");
 		noticeService.insertNotice(notice);
-		return likesMapper.insertLikes(likes);
+		return isS;
 	}
 
 	@Override
 	@Transactional
 	public int deleteLikes(int id) {
+		int isS = likesMapper.deleteLikes(id);
+		if(isS <= 0) return isS;
 		Likes likes = selectLikes(id);
 		int boardId = likes.getBoardId();
 		boardService.decreaseLikesCount(boardId);
-		return likesMapper.deleteLikes(id);
+		return isS;
 	}
 
 

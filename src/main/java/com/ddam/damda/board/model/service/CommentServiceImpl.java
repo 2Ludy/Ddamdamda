@@ -54,8 +54,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	@Transactional
 	public int insertComment(Comment comment) {
+		int isS = commentMapper.insertComment(comment);
+		if(isS <= 0) return isS;
 		int boardId = comment.getBoardId();
 		boardService.increaseCommentsCount(boardId);
+		
 		Board board = boardService.selectBoard(boardId);
 		String title = board.getTitle();
 		int userId = board.getUserId();
@@ -65,16 +68,19 @@ public class CommentServiceImpl implements CommentService {
 		notice.setReferenceType("comment");
 		notice.setContent("\"" + title + "\" 글에 새로운 댓글이 달렸습니다.");
 		noticeService.insertNotice(notice);
-		return commentMapper.insertComment(comment);
+		return isS;
 	}
 
 	@Override
 	@Transactional
 	public int deleteComment(int id) {
+		int isS = commentMapper.deleteComment(id);
+		if(isS <= 0) return isS;
+		
 		Comment com = selectComment(id);
 		int boardId = com.getBoardId();
 		boardService.decreaseCommentsCount(boardId);
-		return commentMapper.deleteComment(id);
+		return isS;
 	}
 
 	@Override
