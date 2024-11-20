@@ -68,6 +68,20 @@ public class UserController {
 		}
     }
 	
+	@Operation(summary = "user의 id를 이용하여 username을 가져오는 메서드", description = "int로 id를 받아 username을 가져오는 메서드")
+    @GetMapping("/findusername/{id}")
+    public ResponseEntity<?> findUsernameById(@PathVariable int id) {
+    	try {
+    		String username = userService.findUsernameById(id);
+    		if(username != null) {
+    			return new ResponseEntity<String>(username, HttpStatus.OK);
+    		}
+    		return new ResponseEntity<>(new ApiResponse("fail", "findUsernameById", 400), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("error", "findUsernameById", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    }
+	
 	@Operation(summary = "id를 이용하여 user정보를 가져오는 메서드", description = "int로 id를 받아 user정보를 가져오는 메서드")
     @GetMapping("/{id}")
     public ResponseEntity<?> findId(@PathVariable int id) {

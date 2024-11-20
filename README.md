@@ -114,3 +114,24 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
    - UserMapper findUsernameByID 추가
    - haveLikes method Mapping 변경
    - Notice 기능 구현 완료
+
+
+### 📌 2024-11-20
+- **FronEnd 기능 구현 내역**
+   - 게시판 구현 중
+   ![이미지](./img/24-11-19-00_로그인.PNG)
+   ![이미지](./img/24-11-19-01_게시판목록.PNG)
+   ![이미지](./img/24-11-19-02_글쓰기.PNG)
+   ![이미지](./img/24-11-19-03_게시글상세&댓글작성.PNG)
+   ![이미지](./img/24-11-19-04_게시글수정.PNG)
+   
+
+- **BackEnd 기능 구현 내역**
+   - insertNotice 구문 수정
+   - Images 기능 구현 완료
+   - deleteComment service 로직 수정
+   - routine 에러코드 수정
+   - DeleteLikes 로직 변경
+   - 조회수 증가 로직 수정
+   - BoardImage 기능 구현 완료
+   - GnoticeImage 기능 구현 완료
