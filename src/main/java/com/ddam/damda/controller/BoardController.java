@@ -59,7 +59,7 @@ public class BoardController {
 		}
 	}
 	
-	@Operation(summary = "board추가", description = "board DTO의 userId, category, title, content를 이용하여 board 생성")
+	@Operation(summary = "board추가", description = "board DTO의 id, userId, category, title, content를 이용하여 board 생성")
 	@PostMapping("")
 	public ResponseEntity<?> addBoard(@RequestBody Board board) {
 		try {
