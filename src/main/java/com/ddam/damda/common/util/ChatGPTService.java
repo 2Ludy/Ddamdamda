@@ -149,7 +149,6 @@ public class ChatGPTService {
         prompt.append("2. 사용자의 운동 경험과 목적을 고려하여 적절한 세트 수와 반복 횟수를 추천해주세요.\n");
         prompt.append("3. 선택한 운동들이 목표 부위를 효과적으로 커버할 수 있도록 해주세요.\n");
         prompt.append("4. 전체 운동이 주어진 시간 안에 완료될 수 있도록 구성해주세요.\n\n");
-        prompt.append("5. userId에는 해당 값을 넣어주면 됩니다 : ").append(request.getUserId());
         
         prompt.append("### 응답 형식 ###\n");
         prompt.append("아래 JSON 형식으로 응답해주세요. 반드시 reps는 하나의 정수값으로 지정해주세요:\n");
@@ -161,7 +160,6 @@ public class ChatGPTService {
 		                "title": "운동명",
 		                "sets": 세트수 (정수, 3-5 사이),
 		                "reps": 반복횟수 (정수, 범위가 아닌 정확한 숫자로 지정),
-		                "userId": 
 		                "note": "운동 추천 이유 AND 주의사항"
                     },
                     ...

@@ -20,6 +20,5 @@ public class RoutineRecommendationRequest {
     private List<String> purposes;   // muscle, strength, endurance 등
     private List<String> targetAreas; // chest, back, shoulder 등
     private int duration;            // 운동 시간(분)
-    private int userId;
 
 }

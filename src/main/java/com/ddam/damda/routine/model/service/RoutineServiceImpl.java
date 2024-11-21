@@ -107,11 +107,12 @@ public class RoutineServiceImpl implements RoutineService {
    private List<Routine> convertToRoutineList(RoutineRecommendationResponse response) {
        List<Routine> routines = new ArrayList<>();
        LocalDate today = LocalDate.now();
+       int userId = response.getUserId();
 
        for (RoutineDetail detail : response.getRoutines()) {
            Routine routine = new Routine();
            routine.setId(0);
-           routine.setUserId(detail.getUserId());
+           routine.setUserId(userId);
            routine.setTitle(detail.getTitle());
            routine.setExerciseDate(today.format(DateTimeFormatter.ISO_DATE));
            routine.setSets(detail.getSets());

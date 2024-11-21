@@ -18,5 +18,6 @@ public class RoutineRecommendationResponse {
 	private List<RoutineDetail> routines;
     private int totalDuration;
     private String recommendation;
+    private int userId;
 
 }
