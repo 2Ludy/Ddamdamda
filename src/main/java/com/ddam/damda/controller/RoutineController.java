@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ddam.damda.jwt.model.ApiResponse;
 import com.ddam.damda.routine.model.Routine;
+import com.ddam.damda.routine.model.RoutineRecommendationRequest;
+import com.ddam.damda.routine.model.RoutineRecommendationResponse;
 import com.ddam.damda.routine.model.service.RoutineService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -159,4 +160,54 @@ public class RoutineController {
 			return new ResponseEntity<>(new ApiResponse("Error", "getCountRoutine", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	// 1. AI 추천 받기
+    @Operation(summary = "AI 맞춤 루틴 추천 받기", 
+            description = "사용자의 운동 경험, 목적, 부위, 시간을 고려하여 AI가 루틴을 추천하는 메서드")
+  @PostMapping("/ai-recommendation")
+  public ResponseEntity<?> getAiRecommendation(@RequestBody RoutineRecommendationRequest request) {
+      try {
+          RoutineRecommendationResponse response = routineService.getAiRoutineRecommendation(request);
+          
+          if (response != null && !response.getRoutines().isEmpty()) {
+              return new ResponseEntity<>(response, HttpStatus.OK);
+          } else {
+              return new ResponseEntity<>(
+                  new ApiResponse("Fail", "No suitable exercises found", 400),
+                  HttpStatus.BAD_REQUEST
+              );
+          }
+      } catch (Exception e) {
+          e.printStackTrace();
+          return new ResponseEntity<>(
+              new ApiResponse("Error", "getAiRecommendation", 500),
+              HttpStatus.INTERNAL_SERVER_ERROR
+          );
+      }
+  }
+  
+  // 2. 추천받은 루틴 저장하기
+  @Operation(summary = "AI 추천 루틴을 Routine 객체로 변환", 
+            description = "AI가 추천한 루틴리스트를을 사Routine 객체로 변환 메서드")
+  @PostMapping("/ai-recommendation/convert")
+  public ResponseEntity<?> convertToRoutines(@RequestBody RoutineRecommendationResponse recommendationResponse) {
+      try {
+          List<Routine> convertedRoutines = routineService.convertToRoutines(recommendationResponse);
+          
+          if (!convertedRoutines.isEmpty()) {
+              return new ResponseEntity<>(convertedRoutines, HttpStatus.CREATED);
+          } else {
+              return new ResponseEntity<>(
+                  new ApiResponse("Fail", "Failed to save routines", 400),
+                  HttpStatus.BAD_REQUEST
+              );
+          }
+      } catch (Exception e) {
+          e.printStackTrace();
+          return new ResponseEntity<>(
+              new ApiResponse("Error", "saveAiRecommendation", 500),
+              HttpStatus.INTERNAL_SERVER_ERROR
+          );
+      }
+  }
 }
