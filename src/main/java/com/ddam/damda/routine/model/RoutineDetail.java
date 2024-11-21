@@ -18,7 +18,6 @@ public class RoutineDetail {
     private String title;
     private int sets;
     private int reps;
-    private int userId;
     private String note;
 
 }
