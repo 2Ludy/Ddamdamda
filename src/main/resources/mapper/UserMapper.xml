@@ -58,7 +58,36 @@
 	    WHERE id = #{id}
 	</update>
     
-    
-	   
+    <delete id="deleteUser">
+	    DELETE FROM user
+	    WHERE id = #{id}
+	</delete>
+	
+	<update id="deleteUserLikes">
+		UPDATE board
+		SET likes_count = likes_count - 1
+		WHERE id IN 
+	    (SELECT board_id
+	    FROM likes
+	    WHERE user_id = #{id})
+	</update>
+	
+	<update id="deleteUserComment">
+		UPDATE board
+		SET comments_count = comments_count - 1
+		WHERE id IN 
+	    (SELECT board_id
+	    FROM comment
+	    WHERE user_id = #{id})
+	</update>
+	
+	<update id="deleteUserGroupMember">
+		UPDATE group_info
+		SET member_count = member_count - 1
+		WHERE group_id IN 
+	    (SELECT group_id
+	    FROM group_members
+	    WHERE user_id = #{id})
+	</update>	
   
 </mapper>

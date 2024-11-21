@@ -21,5 +21,13 @@ public interface UserMapper {
 	String findUserNameById(int id);
 	
 	int updateUser(User user);
+	
+	int deleteUser(int id);
+	
+	void deleteUserLikes(int id);
+	
+	void deleteUserComment(int id);
+	
+	void deleteUserGroupMember(int id);
 
 }

@@ -23,5 +23,7 @@ public interface GroupInfoMapper {
 	int increaseCurrentMembers(int groupId);
 	
 	int decreaseCurrentMembers(int groupId);
+
+	int updateMateStatus(int groupId);
 	
 }

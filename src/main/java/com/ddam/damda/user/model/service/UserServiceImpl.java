@@ -25,6 +25,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ImagesService imageService;
 	
+	@Autowired
+	
+	
 	@Transactional
 	@Override
 	public Optional<User> findByEmail(String email) {
@@ -121,5 +124,16 @@ public class UserServiceImpl implements UserService {
 
 	    // 비밀번호 변경 여부만 반환
 	    return passwordChanged;
+	}
+
+	@Override
+	@Transactional
+	public int deleteUser(int id) {
+		
+		userMapper.deleteUserLikes(id);
+		userMapper.deleteUserGroupMember(id);
+		userMapper.deleteUserComment(id);
+		
+		return userMapper.deleteUser(id);
 	}
 }

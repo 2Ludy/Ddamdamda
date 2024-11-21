@@ -94,6 +94,12 @@
 		WHERE group_id = #{groupId}
 	</update>
 	
+	<update id="updateMateStatus">
+		UPDATE group_info
+		SET mate_status = "마감"
+		WHERE group_id = #{groupId}
+	</update>
+	
 	<update id="increaseCurrentMembers">
 		UPDATE group_info
 		SET current_members = current_members + 1
