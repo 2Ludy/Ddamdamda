@@ -25,9 +25,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ImagesService imageService;
 	
-	@Autowired
-	
-	
 	@Transactional
 	@Override
 	public Optional<User> findByEmail(String email) {
