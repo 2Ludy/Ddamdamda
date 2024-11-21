@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -136,4 +137,18 @@ public class UserController {
 	        );
 	    }
 	}
+	
+	@Operation(summary = "user의 id를 이용하여 User를 삭제", description = "int로 id를 받아 User를 삭제하는 메서드, 좋아요, 가입된 그룹인원, 댓글수 또한 달라짐")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable int id) {
+    	try {
+    		int isS = userService.deleteUser(id);
+    		if(isS > 0) {
+    			return new ResponseEntity<>(new ApiResponse("Success", "deleteUser", 200), HttpStatus.OK);
+    		}
+    		return new ResponseEntity<>(new ApiResponse("fail", "deleteUser", 400), HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("error", "deleteUser", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+    }
 }

@@ -26,4 +26,6 @@ public interface UserService {
 	String findUsernameById(int id);
 	
 	boolean updateProfile(User currentUser, MultipartFile imageFile, User request) throws IOException;
+
+	int deleteUser(int id);
 }

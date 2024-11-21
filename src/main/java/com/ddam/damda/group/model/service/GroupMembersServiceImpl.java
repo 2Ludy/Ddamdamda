@@ -46,6 +46,10 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 		
 		groupInfoService.increaseCurrentMembers(groupId);
 		
+		if(cM+1 == mC) {
+			groupInfoService.updateMateStatus(groupId);
+		}
+		
 		String groupName = groupInfo.getGroupName();
 		Notice notice = new Notice();
 		notice.setReferenceType("group_member");

@@ -113,4 +113,9 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 		return groupInfoMapper.selectUserGroupInfos(userId);
 	}
 
+	@Override
+	public int updateMateStatus(int groupId) {
+		return groupInfoMapper.updateMateStatus(groupId);
+	}
+
 }
