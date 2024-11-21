@@ -96,6 +96,7 @@ public class UserController {
 		}
     }
     
+	@Operation(summary = "password, username, 이미지 파일을 이용히여 수정", description = "password, username, 이미지 파일을 이용히여 수정")
 	@PostMapping("/edit")
 	public ResponseEntity<?> editProfile(
 	        @RequestHeader("Authorization") String authHeader,
