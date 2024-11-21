@@ -74,11 +74,12 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	@Transactional
 	public int deleteComment(int id) {
-		int isS = commentMapper.deleteComment(id);
-		if(isS <= 0) return isS;
-		
 		Comment com = selectComment(id);
 		int boardId = com.getBoardId();
+		
+		int isS = commentMapper.deleteComment(id);
+		if(isS <= 0) return isS;
+
 		boardService.decreaseCommentsCount(boardId);
 		return isS;
 	}
