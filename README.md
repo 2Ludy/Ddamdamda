@@ -7,7 +7,7 @@
 DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니스 플랫폼입니다. 개인의 운동 일정 관리부터 운동 메이트 찾기, 커뮤니티 활동까지 - 당신의 건강한 라이프스타일을 위한 모든 것을 담았습니다.
 
 
-## 📚 기술 스택
+<div align=center><h1>📚 STACKS</h1></div>
 <div align=center> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
   <br>
@@ -24,7 +24,9 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
   <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white"> 
   <br>
   
-  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
+   <img src="https://img.shields.io/badge/talend-FF6D70?style=for-the-badge&logo=talend&logoColor=white"> 
+  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+    <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white"> 
   <br>
 
   <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white">
@@ -164,3 +166,24 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
    - 조회수 증가 로직 수정
    - BoardImage 기능 구현 완료
    - GnoticeImage 기능 구현 완료
+
+### 📌 2024-11-21
+- **FronEnd 기능 구현 내역**
+   - 카테고리별 페이지네이션 에러 해결
+   - 댓글 수정 에러 해결
+   - 프로필 세팅 페이지 생성
+   - 프로필 이미지 불러오기
+   - 프로필 수정 반영
+   - 비밀번호 조건 검사
+   - 닉네임 중복 검사
+   - 로그인 로그아웃 토큰 연동
+   - 헤더 프로필 이미지 불러오기
+   
+
+- **BackEnd 기능 구현 내역**
+   - deleteComment 로직 수정
+   - Routine AI 기능 구현 완료
+   - uploadProfileImage메서드 수정
+   - editProfile 설명 추가
+   - 유저 삭제 기능 추가
+
