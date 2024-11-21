@@ -41,9 +41,7 @@ public class ImageController {
             }
             
             int imageId = imageService.saveProfileImage(file);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse("success", 
-                    String.format("%d번 이미지가 업로드되었습니다", imageId), 201));
+            return new ResponseEntity<Integer>(imageId, HttpStatus.OK);
             
         } catch (IOException e) {
             log.error("이미지 업로드 실패", e);
