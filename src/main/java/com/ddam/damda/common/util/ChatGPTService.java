@@ -13,9 +13,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.ddam.damda.config.ChatGPTConfig;
 import com.ddam.damda.exercises.model.Exercises;
 import com.ddam.damda.exercises.model.mapper.ExercisesMapper;
 import com.ddam.damda.routine.model.RoutineRecommendationRequest;
@@ -27,12 +25,6 @@ public class ChatGPTService {
     @Value("${chatgpt.api.key}")
     private String apiKey;
 	
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private ChatGPTConfig chatGPTConfig;
-    @Autowired
-    private ObjectMapper objectMapper;
     @Autowired
     private ExercisesMapper exerciseMapper;
     
@@ -46,7 +38,7 @@ public class ChatGPTService {
             
             // JSON 요청 본문 생성
             JSONObject requestBody = new JSONObject();
-            requestBody.put("model", "gpt-3.5-turbo");
+            requestBody.put("model", "gpt-4");
             requestBody.put("max_tokens", MAX_TOKENS);
             JSONArray messages = new JSONArray();
             JSONObject message = new JSONObject();
@@ -143,34 +135,36 @@ public class ChatGPTService {
         
         prompt.append("```\n\n");
         
-        // 4. 응답 형식 안내는 동일
+        // 4. 응답 형식 안내
         prompt.append("### 응답 요구사항 ###\n");
-        prompt.append("1. 위 운동 목록에서 정확히 4개의 운동을 선택해주세요.\n");
+        prompt.append("1. 위 운동 목록에 있는 운동만 선택해주세요.\n");
         prompt.append("2. 사용자의 운동 경험과 목적을 고려하여 적절한 세트 수와 반복 횟수를 추천해주세요.\n");
         prompt.append("3. 선택한 운동들이 목표 부위를 효과적으로 커버할 수 있도록 해주세요.\n");
-        prompt.append("4. 전체 운동이 주어진 시간 안에 완료될 수 있도록 구성해주세요.\n\n");
+        prompt.append("4. 운동 시간이 60분이라면 4가지의 운동, 90분이라면 6개의 운동, 120분이라면 8개의 운동을 추천해주세요. \n\n");
         
+        // 응답 형식 수정
         prompt.append("### 응답 형식 ###\n");
         prompt.append("아래 JSON 형식으로 응답해주세요. 반드시 reps는 하나의 정수값으로 지정해주세요:\n");
         prompt.append("""
             {
                 "routines": [
                     {
-		                "exerciseId": 운동ID (정수),
-		                "title": "운동명",
-		                "sets": 세트수 (정수, 3-5 사이),
-		                "reps": 반복횟수 (정수, 범위가 아닌 정확한 숫자로 지정),
-		                "note": "운동 추천 이유 AND 주의사항"
+                        "exerciseId": 운동ID (정수),
+                        "title": "운동명",
+                        "sets": 세트수 (정수, 3-5 사이),
+                        "reps": 반복횟수 (정수, 범위가 아닌 정확한 숫자로 지정),
+                        "note": "운동 추천 이유, 주의사항, 그리고 운동 자세"
                     },
                     ...
                 ],
-                "totalDuration": "예상 소요 시간(분)",
-                "recommendation": "전체 루틴에 대한 조언(전체적인 운동의 주의사항과 해당 루틴들이 어떠한 이점이 있는지)"
+                "totalDuration": 예상 소요 시간 (정수, 분 단위),
+                "recommendation": "해둥 루틴을 통한 효능과 동기부여 메시지. 예시:\n1. 해당 루틴을 통해 얻을 수 있는 효과\n2. 동기부여를 위한 응원 메시지"
             }
             """);
         
         return prompt.toString();
     }
+
     
     // 번역 헬퍼 메서드들
     private String translateExperience(String level) {
