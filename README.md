@@ -167,6 +167,7 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
    - BoardImage 기능 구현 완료
    - GnoticeImage 기능 구현 완료
 
+
 ### 📌 2024-11-21
 - **FronEnd 기능 구현 내역**
    - 카테고리별 페이지네이션 에러 해결
@@ -186,4 +187,21 @@ DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니�
    - uploadProfileImage메서드 수정
    - editProfile 설명 추가
    - 유저 삭제 기능 추가
+
+
+### 📌 2024-11-22
+![이미지](./img/24-11-22_정리.png)
+- **FronEnd 기능 구현 내역**
+   - groupInfo Image 처리 수정
+   - groupInfo 페이지 수정
+   - Group 페이지네이션 추가, css수정
+   - 다이어리 페이지 구현(AI, 그래프 영역 제외)
+   - groupDetail 페이지 추가
+   
+
+- **BackEnd 기능 구현 내역**
+   - AI 루틴 추천 프롬프트 수정
+   - deleteUserGroupMember 구문 수정
+   - selectLatestGroupNotice 메서드 추가
+   - groupInfo 로직 수정, groupNotice 로직 수정
 
