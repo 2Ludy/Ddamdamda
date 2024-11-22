@@ -17,6 +17,8 @@ public interface GroupNoticeMapper {
 	int deleteGroupNotice(int gnoticeId);
 	
 	int updateGroupNotice(GroupNotice groupNotice); // id, title, content 사용
+
+	String selectLatestGroupNotice(int groupId);
 	
 }
 

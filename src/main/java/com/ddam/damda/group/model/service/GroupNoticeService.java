@@ -20,5 +20,6 @@ public interface GroupNoticeService {
 	int deleteGroupNotice(int gnoticeId) throws IOException;
 	
 	int updateGroupNotice(GroupNotice groupNotice, List<MultipartFile> newImages, List<Integer> deleteImageIds) throws IOException;
-
+	
+	String selectLatestGroupNotice(int groupId);
 }

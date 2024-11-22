@@ -134,6 +134,12 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
 
         return result;
     }
+
+	@Override
+	@Transactional
+	public String selectLatestGroupNotice(int groupId) {
+		return groupNoticeMapper.selectLatestGroupNotice(groupId);
+	}
 	
 
 }
