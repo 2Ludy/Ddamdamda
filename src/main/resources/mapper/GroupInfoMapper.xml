@@ -44,7 +44,7 @@
 		WHERE group_id IN (
         SELECT group_id 
         FROM group_members 
-        WHERE user_id = #{userId}
+        WHERE user_id = #{userId})
 	</select>
 	
 	<select id="selectGroupInfo" resultType="GroupInfo">

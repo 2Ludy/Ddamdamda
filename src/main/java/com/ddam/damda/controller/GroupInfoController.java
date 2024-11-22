@@ -136,7 +136,7 @@ public class GroupInfoController {
     }
 	
 	@Operation(summary = "특정 User가 참여하는 GroupInfo 리스트 보기", description = "userId를 이용하여 해당 유저가 참여하고 있는 GroupInfo 리스트를 모두 가져오는 메서드")
-	@GetMapping("/user/{id}")
+	@GetMapping("/user/{userId}")
 	public ResponseEntity<?> selectUserGroupInfo(@PathVariable int userId) {
 		try {
 			List<GroupInfo> groupInfos = groupInfoService.selectUserGroupInfos(userId);
@@ -144,6 +144,7 @@ public class GroupInfoController {
 			return new ResponseEntity<>(new ApiResponse("Not Found", "selectUserGroupInfo", 400), HttpStatus.BAD_REQUEST);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(new ApiResponse("Error", "selectUserGroupInfo", 500), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
