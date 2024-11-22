@@ -12,6 +12,7 @@
 	            AND (title LIKE CONCAT('%', #{search}, '%') OR content LIKE CONCAT('%', #{search}, '%'))
 	        </if>
 	    </where>
+	    ORDER BY gnotice_id DESC
 	</select>
 	
 	<select id="selectGroupNotice" resultType="GroupNotice">

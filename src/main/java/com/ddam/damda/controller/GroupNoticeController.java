@@ -69,7 +69,7 @@ public class GroupNoticeController {
     }
 	
 	@Operation(summary = "GroupNotice 최신글 가져오기", description = "groupId 를 이용하여 해당 그룹의 최신 GroupNotice의 제목을 String으로 불러오는 메서드")
-	@GetMapping("/latest/{gnoticeId}")
+	@GetMapping("/latest/{groupId}")
     public ResponseEntity<?> selectLatestGroupNotice(@PathVariable int groupId) {
         try {
             String title = groupNoticeService.selectLatestGroupNotice(groupId);
