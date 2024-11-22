@@ -68,6 +68,23 @@ public class GroupNoticeController {
         }
     }
 	
+	@Operation(summary = "GroupNotice 최신글 가져오기", description = "groupId 를 이용하여 해당 그룹의 최신 GroupNotice의 제목을 String으로 불러오는 메서드")
+	@GetMapping("/latest/{gnoticeId}")
+    public ResponseEntity<?> selectLatestGroupNotice(@PathVariable int groupId) {
+        try {
+            String title = groupNoticeService.selectLatestGroupNotice(groupId);
+            if (title != null) {
+                return ResponseEntity.ok(title);
+            }
+            return ResponseEntity.badRequest()
+                .body(new ApiResponse("fail", "공지사항을 찾을 수 없습니다.", 400));
+        } catch (Exception e) {
+            log.error("공지사항 조회 실패", e);
+            return ResponseEntity.internalServerError()
+                .body(new ApiResponse("error", "서버 오류가 발생했습니다.", 500));
+        }
+    }
+	
 	@Operation(summary = "GroupNotice 추가", description = "GroupNotice DTO의 groupId, title, content 를 이용하여 GroupNotice를 추가하는 메서드")
 	@PostMapping("")
 	   public ResponseEntity<?> addGroupNotice(

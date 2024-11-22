@@ -42,5 +42,13 @@
 	    SET title = #{title}, content = #{content}, created_at = now()
 	    WHERE gnotice_id = #{gnoticeId}
 	</update>
+	
+	<select id="selectLatestGroupNotice" resultType="String">
+		SELECT title
+		FROM group_notice
+		WHERE group_id = #{groupId}
+		ORDER BY gnotice_id DESC
+		LIMIT 1
+	</select>
 
 </mapper>
