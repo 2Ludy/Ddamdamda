@@ -83,7 +83,7 @@
 	
 	<update id="deleteUserGroupMember">
 		UPDATE group_info
-		SET member_count = member_count - 1
+		SET current_members = current_members - 1
 		WHERE group_id IN 
 	    (SELECT group_id
 	    FROM group_members
