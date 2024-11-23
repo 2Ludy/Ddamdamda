@@ -54,7 +54,12 @@ public class GroupInfoServiceImpl implements GroupInfoService {
             groupInfo.setGroupImg(imageId);
             
             // 3. 그룹 정보 저장
-            return groupInfoMapper.insertGroupInfo(groupInfo);
+            int isS = groupInfoMapper.insertGroupInfo(groupInfo);
+            
+            if(isS > 0) insertAdminMembers(groupInfo);
+            
+            return isS;
+            
         } catch (Exception e) {
             log.error("그룹 생성 실패", e);
             throw e;
@@ -109,13 +114,21 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 	}
 
 	@Override
+	@Transactional
 	public List<GroupInfo> selectUserGroupInfos(int userId) {
 		return groupInfoMapper.selectUserGroupInfos(userId);
 	}
 
 	@Override
+	@Transactional
 	public int updateMateStatus(int groupId) {
 		return groupInfoMapper.updateMateStatus(groupId);
+	}
+
+	@Override
+	@Transactional
+	public int insertAdminMembers(GroupInfo groupInfo) {
+		return groupInfoMapper.insertAdminMembers(groupInfo);
 	}
 
 }

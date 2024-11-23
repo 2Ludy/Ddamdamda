@@ -26,4 +26,6 @@ public interface GroupInfoMapper {
 
 	int updateMateStatus(int groupId);
 	
+	int insertAdminMembers(GroupInfo groupInfo);
+	
 }
