@@ -112,5 +112,15 @@
 		WHERE group_id = #{groupId}
 	</update>
 	
+	<insert id="insertAdminMembers" parameterType="GroupInfo" useGeneratedKeys="true" keyProperty="groupId">
+    INSERT INTO group_members (
+        group_id,
+        user_id
+    ) VALUES (
+        #{groupId},
+        #{adminId}
+    )
+</insert>
+	
 
 </mapper>

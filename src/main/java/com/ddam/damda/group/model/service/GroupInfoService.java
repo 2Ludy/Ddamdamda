@@ -28,5 +28,7 @@ public interface GroupInfoService {
 	int decreaseCurrentMembers(int groupId);
 	
 	int updateMateStatus(int groupId);
+	
+	int insertAdminMembers(GroupInfo groupInfo);
 
 }
