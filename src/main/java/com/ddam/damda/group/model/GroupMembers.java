@@ -16,5 +16,6 @@ public class GroupMembers {
 	private int id;
 	private int groupId;
 	private int userId;
+	private String createdAt;
 
 }

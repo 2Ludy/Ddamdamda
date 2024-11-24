@@ -22,12 +22,22 @@
 	    SELECT 
 	   	id,
 	   	group_id groupId,
-	   	user_id userId
+	   	user_id userId,
+	   	created_at createdAt
 	   	
 	   	FROM group_members
 	   	
 		WHERE id = #{id}
 	</select>	
+
+	<select id="selectGroupMembersCreated">
+	    SELECT 
+	   	created_at createdAt
+	   	
+	   	FROM group_members
+	   	
+		WHERE group_id = #{groupId} AND user_id = #{userId}
+	</select>
 	
 	<insert id="insertGroupMembers" parameterType="GroupMembers" useGeneratedKeys="true" keyProperty="id">
 	    INSERT INTO group_members (

@@ -84,6 +84,11 @@ public class GroupMembersServiceImpl implements GroupMembersService {
 		groupInfoService.decreaseCurrentMembers(groupId);
 		return isS;
 	}
+
+	@Override
+	public String selectAllGroupMembers(GroupMembers groupMembers) {
+		return groupMembersMapper.selectGroupMembersCreated(groupMembers);
+	}
 	
 	
 
