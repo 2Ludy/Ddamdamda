@@ -28,4 +28,6 @@ public interface UserService {
 	boolean updateProfile(User currentUser, MultipartFile imageFile, User request) throws IOException;
 
 	int deleteUser(int id);
+
+	boolean validpassword(User user);
 }

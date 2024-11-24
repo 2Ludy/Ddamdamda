@@ -133,4 +133,11 @@ public class UserServiceImpl implements UserService {
 		
 		return userMapper.deleteUser(id);
 	}
+
+	@Override
+	public boolean validpassword(User user) {
+		int userId = user.getId();
+		User currentUser = userMapper.findById(userId);
+		return passwordEncoder.matches(user.getPassword(), currentUser.getPassword());
+	}
 }
