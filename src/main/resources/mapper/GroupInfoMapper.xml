@@ -24,6 +24,7 @@
 		        AND mate_status = #{mateStatus}
 		    </if>
 	    </where>
+	    ORDER BY group_id DESC
 	</select>
 	
 	<select id="selectUserGroupInfos" resultType="GroupInfo">
