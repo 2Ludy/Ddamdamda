@@ -46,6 +46,19 @@ public class GroupMembersController {
 		}
 	}
 	
+	@Operation(summary = "특정 그룹의 그룹원의 가입 날짜 보기", description = "GroupMembers의 userId와 groupId를 이용하여 createdAt을 반환")
+	@PostMapping("/{groupId}")
+	public ResponseEntity<?> selectGroupMembersCreated(@RequestBody GroupMembers groupMembers) {
+		try {
+			String createdAt = groupMembersService.selectAllGroupMembers(groupMembers);
+			if(createdAt != null) return new ResponseEntity<String>(createdAt,HttpStatus.OK);
+			return new ResponseEntity<>(new ApiResponse("fail", "selectAllGroupMembers", 400), HttpStatus.BAD_REQUEST);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ApiResponse("Error", "selectAllGroupMembers", 500), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@Operation(summary = "GroupMembers 추가", description = "GroupMembers DTO의 groupId, userId 를 이용하여 그룹 멤버를 추가하는 메서드, group_info 테이블에 member_count 가 증가됨")
 	@PostMapping("")
 	public ResponseEntity<?> addGroupMembers(@RequestBody GroupMembers groupMembers) {

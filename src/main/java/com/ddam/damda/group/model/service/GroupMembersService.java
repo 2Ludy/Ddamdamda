@@ -18,4 +18,6 @@ public interface GroupMembersService {
 	
 	int deleteGroupMembersById(int id);
 
+	String selectAllGroupMembers(GroupMembers groupMembers);
+
 }

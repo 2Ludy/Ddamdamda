@@ -17,4 +17,6 @@ public interface GroupMembersMapper {
 	
 	int deleteGroupMembersById(int id);
 	
+	String selectGroupMembersCreated(GroupMembers groupMembers);
+	
 }
