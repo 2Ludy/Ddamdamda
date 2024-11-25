@@ -38,7 +38,7 @@ public class ChatGPTService {
             
             // JSON 요청 본문 생성
             JSONObject requestBody = new JSONObject();
-            requestBody.put("model", "gpt-4");
+            requestBody.put("model", "gpt-4o-mini");
             requestBody.put("max_tokens", MAX_TOKENS);
             JSONArray messages = new JSONArray();
             JSONObject message = new JSONObject();
@@ -77,6 +77,10 @@ public class ChatGPTService {
                 String content = choices.getJSONObject(0)
                                      .getJSONObject("message")
                                      .getString("content");
+                
+                content = content.replaceAll("```json", "")
+                        .replaceAll("```", "")
+                        .trim();
                                      
                 // JSON 문자열을 RoutineRecommendationResponse 객체로 변환
                 return new ObjectMapper().readValue(content, RoutineRecommendationResponse.class);
@@ -144,7 +148,7 @@ public class ChatGPTService {
         
         // 응답 형식 수정
         prompt.append("### 응답 형식 ###\n");
-        prompt.append("아래 JSON 형식으로 응답해주세요. 반드시 reps는 하나의 정수값으로 지정해주세요:\n");
+        prompt.append("아래 JSON 형식으로 응답해주세요. 반드시 reps는 하나의 정수값으로 지정해주고, 응답 외의 다른 텍스트나 마크다운은 포함하지 마세요:\n");
         prompt.append("""
             {
                 "routines": [
