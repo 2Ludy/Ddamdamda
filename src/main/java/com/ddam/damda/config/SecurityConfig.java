@@ -54,15 +54,18 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(//"/swagger-ui/**",를 열면 해당 다른 것도 열어야함
                 		 //req->req.requestMatchers("**","/login/**","/register/**", "/refresh_token/**")
-                		req->req.requestMatchers("/*.html","/css/**","/image/**",
+                		req->req.requestMatchers("/*.html","/css/**","/images/**",
                 				"/login/**","/register/**", "/refresh_token/**",
-                				"/board/**",
+                				"/board/page",
+                				"/boardimage/**",
+                				"/group",
                 				"/api/v1/auth-service/**",  // Your specific API access,
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/exercises",
-                                "/**",
+                                "/exercises/**",
+                                "/groupinfo/page",
+                                "/user/**",
                                 "/webjars/**")
                         //req->req.requestMatchers("/login/**","/register/**", "/refresh_token/**")
                                 .permitAll()
