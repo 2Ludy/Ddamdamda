@@ -6,6 +6,12 @@
 
 DdamDamDa는 운동을 사랑하는 모든 사람들을 위한 종합 피트니스 플랫폼입니다. 개인의 운동 일정 관리부터 운동 메이트 찾기, 커뮤니티 활동까지 - 당신의 건강한 라이프스타일을 위한 모든 것을 담았습니다.
 
+## 📝 참고자료
+
+### [팀 노션 페이지](https://www.notion.so/PJT-136634ecbbc48068a295efd5d3e5fcb5?pvs=4)
+
+### [요구사항 정의서](https://docs.google.com/spreadsheets/d/16uS-oSijpuOd-1RVGpClQE0FbH4ZhtV82RlkieFNbzw/edit?usp=sharing)
+
 
 <div align=center><h1>📚 STACKS</h1></div>
 <div align=center> 
